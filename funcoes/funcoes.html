@@ -158,6 +158,27 @@ body {
   gap: 16px;
 }
 
+.topbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--green-700);
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  padding: 5px 12px;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+
+.topbar-back:hover {
+  background: var(--green-100);
+  color: var(--green-800);
+}
+
 .topbar-title {
   font-size: 0.88rem;
   font-weight: 600;
@@ -810,6 +831,7 @@ hr.section-divider {
 <div id="main">
 
   <div class="topbar">
+    <a class="topbar-back" href="../index.html">← Início</a>
     <span class="topbar-title">Funções em Python — Contexto: Pizzaria 🍕</span>
     <div class="topbar-tags">
       <span class="chip">Python 3.x</span>
