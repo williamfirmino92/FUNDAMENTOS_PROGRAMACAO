@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamentos da Programação — ADS · Senac Rio</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green-900: #14532d;
+      --green-800: #166534;
+      --green-700: #15803d;
+      --green-600: #16a34a;
+      --green-500: #22c55e;
+      --green-400: #4ade80;
+      --green-300: #86efac;
+      --green-200: #bbf7d0;
+      --green-100: #dcfce7;
+      --green-50: #f0fdf4;
+
+      --text: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --border: #e2e8f0;
+      --bg: #ffffff;
+      --bg-soft: #f8fafc;
+
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --max-w: 1100px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 15px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      height: 58px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .nav-brand-icon {
+      width: 30px;
+      height: 30px;
+      background: var(--green-600);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .nav-brand-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--green-700);
+      line-height: 1.2;
+    }
+
+    .nav-brand-sub {
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 7px;
+      transition: all 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: var(--green-50);
+      color: var(--green-700);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, #f0fdf4 0%, #ffffff 55%, #f8fafc 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 40px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #bbf7d050 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -60px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #4ade8018 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green-600);
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green-500);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.4;
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green-600);
+      background: linear-gradient(135deg, var(--green-600), var(--green-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-meta-label {
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .hero-meta-value {
+      font-weight: 700;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 72px 40px;
+    }
+
+    .section-wrap+.section-wrap {
+      padding-top: 0;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .section-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── ABOUT GRID ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 780px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 24px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .about-card:hover {
+      border-color: var(--green-300);
+      box-shadow: 0 2px 12px rgba(22, 163, 74, 0.07);
+    }
+
+    .about-card-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-bottom: 12px;
+    }
+
+    /* Professor card */
+    .prof-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .prof-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--green-600);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .prof-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .prof-inst {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Info card */
+    .info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .info-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-key {
+      color: var(--text-muted);
+    }
+
+    .info-value {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Ementa card */
+    .ementa-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ementa-list li {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      padding: 6px 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+    }
+
+    .ementa-list li::before {
+      content: '→';
+      color: var(--green-500);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .video-wrap {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      overflow: hidden;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .video-topbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      font-size: 0.72rem;
+      color: #64748b;
+      font-family: var(--mono);
+    }
+
+    .video-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .video-dot:nth-child(1) {
+      background: #ff5f57;
+    }
+
+    .video-dot:nth-child(2) {
+      background: #febc2e;
+    }
+
+    .video-dot:nth-child(3) {
+      background: #28c840;
+    }
+
+    .video-player-area {
+      position: relative;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .video-play-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--green-600);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+      box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.15);
+    }
+
+    .video-play-icon:hover {
+      transform: scale(1.08);
+      background: var(--green-500);
+    }
+
+    .video-player-area h3 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+
+    .video-player-area p {
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+
+    /* ── CRONOGRAMA ── */
+    .cronograma-table-wrap {
+      overflow-x: auto;
+    }
+
+    .cronograma-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .cronograma-table thead {
+      background: var(--bg-soft);
+    }
+
+    .cronograma-table th {
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cronograma-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    .cronograma-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .cronograma-table tr:hover td {
+      background: var(--green-50);
+    }
+
+    .aula-num {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--green-600);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .status-done {
+      background: var(--green-100);
+      color: var(--green-700);
+      border: 1px solid var(--green-200);
+    }
+
+    .status-current {
+      background: #fef9c3;
+      color: #854d0e;
+      border: 1px solid #fde68a;
+    }
+
+    .status-next {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .status-waiting {
+      background: var(--bg-soft);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    /* ── MATERIAIS ── */
+    .materiais-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .material-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    }
+
+    .material-card:hover {
+      border-color: var(--green-400);
+      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .material-card.soon {
+      opacity: 0.6;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .material-card.soon:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .material-card-top {
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .material-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .icon-aula {
+      background: var(--green-100);
+    }
+
+    .icon-exercicio {
+      background: #eff6ff;
+    }
+
+    .icon-soon {
+      background: var(--bg-soft);
+    }
+
+    .material-type {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: var(--mono);
+    }
+
+    .type-aula {
+      background: var(--green-50);
+      color: var(--green-700);
+      border: 1px solid var(--green-200);
+    }
+
+    .type-exercicio {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .type-soon {
+      background: var(--bg-soft);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+
+    .material-card-body {
+      padding: 16px 22px;
+      flex: 1;
+    }
+
+    .material-card-body h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .material-card-body p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .material-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 12px 22px 16px;
+    }
+
+    .mtag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      font-family: var(--mono);
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--bg-soft);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .material-card-footer {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+    }
+
+    .material-card-footer .open-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--green-600);
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .material-card-footer .open-link::after {
+      content: '→';
+    }
+
+    .soon-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* ── RECURSOS ── */
+    .recursos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .recurso-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .recurso-card:hover {
+      border-color: var(--green-300);
+      box-shadow: 0 2px 10px rgba(22, 163, 74, 0.07);
+    }
+
+    .recurso-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .recurso-card h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .recurso-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .footer-inner p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .footer-inner strong {
+      color: var(--text-secondary);
+    }
+
+    /* ── PROGRESS BAR ── */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green-600), var(--green-400));
+      z-index: 200;
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--green-300);
+    }
+
+    @media (max-width: 700px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 52px 20px 48px;
+      }
+
+      .section-wrap {
+        padding: 48px 20px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="progress"></div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        <div class="nav-brand-icon">🐍</div>
+        <div>
+          <div class="nav-brand-text">Fundamentos da Programação</div>
+          <div class="nav-brand-sub">ADS · Senac Rio</div>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#materiais">Materiais</a></li>
+        <li><a href="#cronograma">Cronograma</a></li>
+        <li><a href="#recursos">Recursos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Análise e Desenvolvimento de Sistemas</div>
+      <h1>Fundamentos da<br><em>Programação</em></h1>
+      <p class="hero-desc">Lógica, algoritmos e programação em Python do zero ao intermediário. Materiais organizados
+        por tema para acompanhar sua jornada na disciplina.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Professor:</span>
+          <span class="hero-meta-value">William Firmino</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Curso:</span>
+          <span class="hero-meta-value">ADS — Manhã</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Semestre:</span>
+          <span class="hero-meta-value">2026.1</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Carga horária:</span>
+          <span class="hero-meta-value">80h</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ SOBRE ═══ -->
+  <section id="sobre">
+    <div class="section-wrap">
+      <div class="section-title">Sobre a disciplina</div>
+      <div class="section-sub">Informações gerais, professor responsável e ementa da disciplina.</div>
+
+      <div class="about-grid">
+
+        <!-- Professor -->
+        <div class="about-card">
+          <div class="about-card-label">Professor responsável</div>
+          <div class="prof-row">
+            <div class="prof-avatar">W</div>
+            <div>
+              <div class="prof-name">William Firmino</div>
+              <div class="prof-inst">Faculdade de Tecnologia Senac Rio</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Informações -->
+        <div class="about-card">
+          <div class="about-card-label">Informações gerais</div>
+          <ul class="info-list">
+            <li><span class="info-key">Curso</span><span class="info-value">ADS — Manhã</span></li>
+            <li><span class="info-key">Carga horária</span><span class="info-value">80h / semestre</span></li>
+            <li><span class="info-key">Semestre</span><span class="info-value">2026.1</span></li>
+            <li><span class="info-key">Linguagem</span><span class="info-value">Python 3.x</span></li>
+          </ul>
+        </div>
+
+        <!-- Ementa -->
+        <div class="about-card">
+          <div class="about-card-label">Ementa</div>
+          <ul class="ementa-list">
+            <li>Lógica de programação e algoritmos</li>
+            <li>Variáveis, tipos de dados e operadores</li>
+            <li>Estruturas de controle: condicionais e repetição</li>
+            <li>Funções: definição, parâmetros, retorno e escopo</li>
+            <li>Estruturas de dados: listas, dicionários e tuplas</li>
+            <li>Introdução à programação orientada a objetos</li>
+            <li>Boas práticas e legibilidade de código (PEP 8)</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══ MATERIAIS ═══ -->
+  <section id="materiais">
+    <div class="section-wrap">
+      <div class="section-title">Materiais da disciplina</div>
+      <div class="section-sub">Apostilas, exercícios práticos e listas organizados por tema.</div>
+
+      <div class="materiais-grid">
+
+        <!-- ── Aula: Funções em Python ── -->
+        <a class="material-card" href="./funcoes/funcoes.html">
+          <div class="material-card-top">
+            <div class="material-card-icon icon-aula">📖</div>
+            <span class="material-type type-aula">Apostila</span>
+          </div>
+          <div class="material-card-body">
+            <h3>Funções em Python</h3>
+            <p>Por que usar funções, estrutura, parâmetros, retorno, reutilização de código, escopo de variáveis e boas
+              práticas — exemplos com contexto de pizzaria.</p>
+          </div>
+          <div class="material-tags">
+            <span class="mtag">def</span>
+            <span class="mtag">return</span>
+            <span class="mtag">parâmetros</span>
+            <span class="mtag">escopo</span>
+            <span class="mtag">boas práticas</span>
+          </div>
+          <div class="material-card-footer">
+            <span style="font-size:0.75rem; color:var(--text-muted);">6 seções · Python 3.x</span>
+            <span class="open-link">Abrir </span>
+          </div>
+        </a>
+
+        <!-- ── Exercícios: Escola (com gabarito) ── -->
+        <a class="material-card" href="./funcoes/exercicios-funcoes.html">
+          <div class="material-card-top">
+            <div class="material-card-icon icon-exercicio">🏫</div>
+            <span class="material-type type-exercicio">Exercícios + Gabarito</span>
+          </div>
+          <div class="material-card-body">
+            <h3>Exercícios — Funções · Colégio Byte</h3>
+            <p>Cinco exercícios progressivos sobre funções, ambientados no sistema acadêmico do Colégio Byte — com
+              gabarito disponível para consulta.</p>
+          </div>
+          <div class="material-tags">
+            <span class="mtag">média ponderada</span>
+            <span class="mtag">boletim</span>
+            <span class="mtag">relatório</span>
+            <span class="mtag">recuperação</span>
+          </div>
+          <div class="material-card-footer">
+            <span style="font-size:0.75rem; color:var(--text-muted);">5 exercícios · fácil → desafiador</span>
+            <span class="open-link">Abrir </span>
+          </div>
+        </a>
+
+        <!-- ── Em breve: Listas e Dicionários ── -->
+        <div class="material-card soon">
+          <div class="material-card-top">
+            <div class="material-card-icon icon-soon">📦</div>
+            <span class="material-type type-soon">Apostila</span>
+          </div>
+          <div class="material-card-body">
+            <h3>Listas, Tuplas e Dicionários</h3>
+            <p>Estruturas de dados em Python: criação, acesso, modificação, iteração e métodos principais.</p>
+          </div>
+          <div class="material-tags">
+            <span class="mtag">list</span>
+            <span class="mtag">tuple</span>
+            <span class="mtag">dict</span>
+          </div>
+          <div class="material-card-footer">
+            <span class="soon-label">Em breve</span>
+          </div>
+        </div>
+
+        <!-- ── Em breve: Estruturas de controle ── -->
+        <div class="material-card soon">
+          <div class="material-card-top">
+            <div class="material-card-icon icon-soon">🔀</div>
+            <span class="material-type type-soon">Apostila</span>
+          </div>
+          <div class="material-card-body">
+            <h3>Estruturas de Controle</h3>
+            <p>Condicionais (if / elif / else) e estruturas de repetição (for, while) com exemplos práticos.</p>
+          </div>
+          <div class="material-tags">
+            <span class="mtag">if/else</span>
+            <span class="mtag">for</span>
+            <span class="mtag">while</span>
+          </div>
+          <div class="material-card-footer">
+            <span class="soon-label">Em breve</span>
+          </div>
+        </div>
+
+        <!-- ── Em breve: POO ── -->
+        <div class="material-card soon">
+          <div class="material-card-top">
+            <div class="material-card-icon icon-soon">🧱</div>
+            <span class="material-type type-soon">Apostila</span>
+          </div>
+          <div class="material-card-body">
+            <h3>Introdução à OOP</h3>
+            <p>Classes, objetos, atributos e métodos — primeiros passos na programação orientada a objetos com Python.
+            </p>
+          </div>
+          <div class="material-tags">
+            <span class="mtag">class</span>
+            <span class="mtag">__init__</span>
+            <span class="mtag">métodos</span>
+          </div>
+          <div class="material-card-footer">
+            <span class="soon-label">Em breve</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══ CRONOGRAMA ═══ -->
+  <section id="cronograma">
+    <div class="section-wrap">
+      <div class="section-title">Cronograma</div>
+      <div class="section-sub">Planejamento das aulas do semestre 2025.2.</div>
+
+      <div class="cronograma-table-wrap">
+        <table class="cronograma-table">
+          <thead>
+            <tr>
+              <th>Aula</th>
+              <th>Tema</th>
+              <th>Data</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="aula-num">Aula 01</span></td>
+              <td>Introdução ao Python — variáveis e tipos de dados</td>
+              <td>04/08/2025</td>
+              <td><span class="status-badge status-done">✓ Concluída</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 02</span></td>
+              <td>Operadores e entrada/saída de dados</td>
+              <td>11/08/2025</td>
+              <td><span class="status-badge status-done">✓ Concluída</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 03</span></td>
+              <td>Estruturas condicionais — if, elif, else</td>
+              <td>18/08/2025</td>
+              <td><span class="status-badge status-done">✓ Concluída</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 04</span></td>
+              <td>Estruturas de repetição — for e while</td>
+              <td>25/08/2025</td>
+              <td><span class="status-badge status-done">✓ Concluída</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 05</span></td>
+              <td>Funções — definição, parâmetros e retorno</td>
+              <td>01/09/2025</td>
+              <td><span class="status-badge status-current">● Em andamento</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 06</span></td>
+              <td>Funções — escopo, boas práticas e reutilização</td>
+              <td>08/09/2025</td>
+              <td><span class="status-badge status-next">→ Próxima</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 07</span></td>
+              <td>Listas e tuplas</td>
+              <td>15/09/2025</td>
+              <td><span class="status-badge status-waiting">Aguardando</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 08</span></td>
+              <td>Dicionários e conjuntos</td>
+              <td>22/09/2025</td>
+              <td><span class="status-badge status-waiting">Aguardando</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 09</span></td>
+              <td>Introdução à programação orientada a objetos</td>
+              <td>29/09/2025</td>
+              <td><span class="status-badge status-waiting">Aguardando</span></td>
+            </tr>
+            <tr>
+              <td><span class="aula-num">Aula 10</span></td>
+              <td>Revisão geral e avaliação final</td>
+              <td>06/10/2025</td>
+              <td><span class="status-badge status-waiting">Aguardando</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ═══ RECURSOS ═══ -->
+  <section id="recursos">
+    <div class="section-wrap">
+      <div class="section-title">Recursos complementares</div>
+      <div class="section-sub">Documentação oficial, tutoriais e ferramentas recomendadas.</div>
+
+      <div class="recursos-grid">
+        <a class="recurso-card" href="https://docs.python.org/pt-br/3/" target="_blank">
+          <span class="recurso-icon">🐍</span>
+          <div>
+            <h4>Documentação oficial do Python</h4>
+            <p>Referência completa da linguagem em português, incluindo biblioteca padrão e tutoriais.</p>
+          </div>
+        </a>
+        <a class="recurso-card" href="https://peps.python.org/pep-0008/" target="_blank">
+          <span class="recurso-icon">📐</span>
+          <div>
+            <h4>PEP 8 — Guia de estilo Python</h4>
+            <p>Convenções oficiais de formatação e nomenclatura para código Python limpo e legível.</p>
+          </div>
+        </a>
+        <a class="recurso-card" href="https://replit.com/" target="_blank">
+          <span class="recurso-icon">▶️</span>
+          <div>
+            <h4>Replit — IDE online</h4>
+            <p>Execute Python direto no navegador, sem instalação. Ótimo para praticar em sala ou em casa.</p>
+          </div>
+        </a>
+        <a class="recurso-card" href="https://pythontutor.com/" target="_blank">
+          <span class="recurso-icon">🔍</span>
+          <div>
+            <h4>Python Tutor — Visualizador</h4>
+            <p>Visualize a execução do seu código passo a passo, incluindo escopo de variáveis e chamadas de funções.
+            </p>
+          </div>
+        </a>
+        <a class="recurso-card" href="https://code.visualstudio.com/" target="_blank">
+          <span class="recurso-icon">💻</span>
+          <div>
+            <h4>Visual Studio Code</h4>
+            <p>Editor recomendado para a disciplina. Instale a extensão Python da Microsoft para autocompletar e
+              depuração.</p>
+          </div>
+        </a>
+        <a class="recurso-card" href="https://www.youtube.com/results?search_query=python+para+iniciantes+python"
+          target="_blank">
+          <span class="recurso-icon">🎥</span>
+          <div>
+            <h4>Python para iniciantes — YouTube</h4>
+            <p>Playlist de vídeos em português cobrindo os fundamentos da linguagem Python do zero.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-inner">
+      <p><strong>Fundamentos da Programação</strong> · Análise e Desenvolvimento de Sistemas</p>
+      <p style="margin-top:4px;">Faculdade de Tecnologia Senac Rio · 2025.2</p>
+    </div>
+  </footer>
+
+  <script>
+    // Barra de progresso
+    window.addEventListener('scroll', () => {
+      const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('progress').style.width = p + '%';
+    });
+
+    // Nav links active on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.style.color = '');
+          const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+          if (active) active.style.cssText = 'background:var(--green-50);color:var(--green-700);';
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+
+    sections.forEach(s => obs.observe(s));
+  </script>
+</body>
+
+</html>
