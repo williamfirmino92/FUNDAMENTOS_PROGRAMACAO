@@ -688,9 +688,66 @@
       .recursos-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
     }
+
+    /* ─── DARK MODE ──────────────────────── */
+    body.dark {
+      --bg:           #0d1f14;
+      --surface:      #112018;
+      --surface2:     #152a1e;
+      --text:         #f0fdf4;
+      --text2:        #86efac;
+      --muted:        #94a3b8;
+      --border:       #1e3d2a;
+      --shadow:       0 2px 16px rgba(0,0,0,.35);
+      --shadow-lg:    0 8px 40px rgba(0,0,0,.45);
+    }
+    body.dark .topbar {
+      background: rgba(13,31,20,.93);
+    }
+    body.dark .cronograma-row:hover {
+      background: #152a1e;
+    }
+    body.dark .apostila-card.soon {
+      background: #112018;
+    }
+    body.dark .apostila-card.placeholder {
+      border-color: #1e3d2a;
+    }
+    body.dark .info-grid span[style] {
+      background: #152a1e !important;
+      border-color: #1e3d2a !important;
+    }
+
+    /* ─── TOGGLE BUTTON ─────────────────── */
+    .theme-toggle {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, border-color .15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .theme-toggle:hover {
+      background: var(--green-soft);
+      border-color: var(--green-border);
+    }
   </style>
+  <script>if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark-pre');</script>
+  <style>.dark-pre body,.dark-pre{background:#0d1f14!important}</style>
 </head>
 <body>
+<script>
+  if(localStorage.getItem('theme')==='dark'){
+    document.body.classList.add('dark');
+    document.documentElement.classList.remove('dark-pre');
+  }
+</script>
 
 <!-- ══════════ TOPBAR ══════════ -->
 <header class="topbar">
@@ -704,6 +761,7 @@
     <a href="#cronograma">Cronograma</a>
     <a href="#recursos">Recursos</a>
   </nav>
+  <button class="theme-toggle" id="themeToggle" title="Alternar modo claro/escuro">🌙</button>
 </header>
 
 <!-- ══════════ HERO ══════════ -->
@@ -1046,6 +1104,24 @@
       a.style.color      = active ? 'var(--green-deep)' : '';
       a.style.background = active ? 'var(--green-soft)' : '';
     });
+  });
+
+  // ─── Modo claro / escuro ───────────────
+  const themeToggle = document.getElementById('themeToggle');
+
+  function applyTheme(dark) {
+    document.body.classList.toggle('dark', dark);
+    themeToggle.textContent = dark ? '☀️' : '🌙';
+    themeToggle.title = dark ? 'Mudar para modo claro' : 'Mudar para modo escuro';
+  }
+
+  // Carrega preferência salva
+  applyTheme(localStorage.getItem('theme') === 'dark');
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.body.classList.contains('dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    applyTheme(!isDark);
   });
 </script>
 
