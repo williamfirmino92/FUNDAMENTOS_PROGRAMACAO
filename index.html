@@ -603,6 +603,31 @@
       border-color: var(--green);
     }
 
+    /* Card avaliação */
+    .avaliacao-card::before {
+      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+    }
+
+    .avaliacao-card:hover {
+      border-color: #ddd6fe;
+    }
+
+    .avaliacao-cta {
+      color: #7c3aed !important;
+      background: #f5f3ff !important;
+      border-color: #ddd6fe !important;
+    }
+
+    .avaliacao-card:hover .avaliacao-cta {
+      background: #7c3aed !important;
+      color: #fff !important;
+      border-color: #7c3aed !important;
+    }
+
+    body.dark .avaliacao-card:hover {
+      border-color: #4c1d95;
+    }
+
     /* Card em breve */
     .apostila-card.soon {
       background: var(--surface2);
@@ -857,6 +882,7 @@
     <nav class="topbar-nav">
       <a href="#sobre">Sobre</a>
       <a href="#materiais">Materiais</a>
+      <a href="#avaliacoes">Avaliações</a>
       <a href="#cronograma">Cronograma</a>
       <a href="#recursos">Recursos</a>
     </nav>
@@ -1081,6 +1107,35 @@
           <span>Nova apostila<br>a caminho</span>
         </div>
       </div>
+
+    </div>
+
+    <!-- ── Avaliações ── -->
+    <div class="section-label" id="avaliacoes">
+      <h2>Atividades avaliativas</h2>
+    </div>
+
+    <div class="materiais-grid">
+
+      <a class="apostila-card avaliacao-card" href="./poo/atividade-poo.html">
+        <div>
+          <div class="card-mod" style="color:#7c3aed;">Ciclo Avaliativo 2 · P.O.O</div>
+        </div>
+        <div class="card-title">Sistema de Gestão de Pacientes</div>
+        <div class="card-desc">
+          Desenvolva um sistema orientado a objetos para gerenciar pacientes de uma clínica médica, aplicando Herança, Polimorfismo e Encapsulamento. Entrega via GitHub.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">Herança</span>
+          <span class="card-topic">Polimorfismo</span>
+          <span class="card-topic">Encapsulamento</span>
+          <span class="card-topic">GitHub</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-pages">100 pts · Python 3.x</span>
+          <span class="card-cta avaliacao-cta">Ver atividade →</span>
+        </div>
+      </a>
 
     </div>
 

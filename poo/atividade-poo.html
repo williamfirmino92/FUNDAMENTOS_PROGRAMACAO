@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade — P.O.O · Sistema de Pacientes · ADS</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green-900: #14532d;
+      --green-800: #166534;
+      --green-700: #15803d;
+      --green-600: #16a34a;
+      --green-500: #22c55e;
+      --green-400: #4ade80;
+      --green-300: #86efac;
+      --green-200: #bbf7d0;
+      --green-100: #dcfce7;
+      --green-50: #f0fdf4;
+
+      --text: #111827;
+      --text-secondary: #374151;
+      --text-muted: #6b7280;
+      --text-light: #9ca3af;
+      --border: #e5e7eb;
+      --border-med: #d1d5db;
+      --bg: #ffffff;
+      --bg-soft: #f9fafb;
+      --bg-code: #f3f4f6;
+
+      --sidebar-w: 260px;
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 15px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: var(--bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 50;
+    }
+
+    .sidebar-logo {
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: var(--green-600);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--green-700);
+      line-height: 1.2;
+    }
+
+    .logo-sub {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+
+    .nav-group-label {
+      padding: 8px 24px 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-light);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .nav-item:hover {
+      background: var(--green-50);
+      color: var(--green-700);
+      border-left-color: var(--green-300);
+    }
+
+    .nav-item.active {
+      background: var(--green-50);
+      color: var(--green-700);
+      font-weight: 600;
+      border-left-color: var(--green-600);
+    }
+
+    .nav-num {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--text-light);
+      min-width: 18px;
+    }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* ── MAIN ── */
+    #main {
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .topbar-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--green-700);
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      padding: 5px 12px;
+      border-radius: 7px;
+      text-decoration: none;
+      transition: background .15s, color .15s;
+      flex-shrink: 0;
+    }
+
+    .topbar-back:hover {
+      background: var(--green-100);
+      color: var(--green-800);
+    }
+
+    .topbar-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .topbar-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--green-100);
+      color: var(--green-700);
+      border: 1px solid var(--green-200);
+      font-family: var(--mono);
+    }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 56px 48px 120px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      margin-bottom: 48px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green-600);
+      margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .page-header p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    /* ── STORY BOX ── */
+    .story-box {
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      border-left: 4px solid var(--green-500);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+
+    .story-box .story-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green-600);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .story-box h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--green-800);
+      margin-bottom: 10px;
+    }
+
+    .story-box p {
+      font-size: 0.92rem;
+      color: var(--green-900);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+
+    .story-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ── CLASS CARD ── */
+    .class-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      scroll-margin-top: 80px;
+      transition: box-shadow 0.2s;
+    }
+
+    .class-card:hover {
+      box-shadow: 0 4px 20px rgba(22, 163, 74, 0.08);
+    }
+
+    .class-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 26px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+
+    .class-header-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .class-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .class-title-block h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .class-title-block .class-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .class-type-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .type-super {
+      background: var(--green-100);
+      color: var(--green-700);
+      border: 1px solid var(--green-300);
+    }
+
+    .type-sub {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .class-body {
+      padding: 24px 26px;
+    }
+
+    .class-body>p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    /* ── SEÇÕES INTERNAS ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 3px;
+      height: 12px;
+      background: var(--green-500);
+      border-radius: 2px;
+    }
+
+    /* ── ATRIBUTOS / MÉTODOS ── */
+    .attr-list {
+      margin: 0 0 24px;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .attr-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      padding: 10px 14px;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+    }
+
+    .attr-list li code {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--green-700);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .attr-list li .attr-desc {
+      color: var(--text-muted);
+      font-size: 0.83rem;
+    }
+
+    .attr-icon {
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── MÉTODO CARD ── */
+    .method-block {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .method-block .method-sig {
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--green-700);
+      margin-bottom: 6px;
+    }
+
+    .method-block ul {
+      padding-left: 16px;
+      margin: 0;
+    }
+
+    .method-block ul li {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    code.inline {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--green-700);
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 16px 0;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .callout-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .callout.tip {
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      color: var(--green-800);
+    }
+
+    .callout.info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+    }
+
+    .callout.warn {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    .callout strong {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 3px;
+    }
+
+    /* ── CLASS FOOTER ── */
+    .class-footer {
+      padding: 14px 26px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .concept-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .concept-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      font-family: var(--mono);
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: var(--green-100);
+      color: var(--green-700);
+      border: 1px solid var(--green-200);
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 16px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    thead {
+      background: var(--bg-soft);
+    }
+
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: var(--green-50);
+    }
+
+    td:first-child {
+      color: var(--green-700);
+      font-weight: 600;
+    }
+
+    .pts-total td {
+      background: var(--green-50) !important;
+      font-weight: 700;
+      color: var(--green-800) !important;
+    }
+
+    /* ── ENTREGA GITHUB ── */
+    .entrega-card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+
+    .entrega-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 24px;
+      border-bottom: 1px solid #30363d;
+      background: #161b22;
+    }
+
+    .entrega-header .gh-icon {
+      width: 32px;
+      height: 32px;
+      background: #f0f6ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .entrega-header strong {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #e6edf3;
+    }
+
+    .entrega-header span {
+      font-size: 0.78rem;
+      color: #8b949e;
+    }
+
+    .entrega-body {
+      padding: 20px 24px;
+    }
+
+    .file-tree {
+      font-family: var(--mono);
+      font-size: 0.83rem;
+      color: #e6edf3;
+      background: #0d1117;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .file-tree .dir {
+      color: #79c0ff;
+    }
+
+    .file-tree .file {
+      color: #a5d6ff;
+    }
+
+    .file-tree .note {
+      color: #8b949e;
+    }
+
+    .readme-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .readme-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: #e6edf3;
+      padding: 8px 12px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 7px;
+    }
+
+    .readme-list li::before {
+      content: '→';
+      color: #3fb950;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── AVISO INICIAL ── */
+    .aviso-card {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+
+    body.dark .aviso-card {
+      background: #1c1400;
+      border-color: #713f12;
+      border-left-color: #f59e0b;
+    }
+
+    .aviso-card .aviso-header {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    body.dark .aviso-card .aviso-header {
+      color: #fde68a;
+    }
+
+    .aviso-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: #78350f;
+      line-height: 1.6;
+      padding: 8px 0;
+      border-bottom: 1px solid #fde68a;
+    }
+
+    body.dark .aviso-item {
+      color: #fde68a;
+      border-bottom-color: #713f12;
+    }
+
+    .aviso-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .aviso-item .aviso-check {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .aviso-item strong {
+      color: #92400e;
+    }
+
+    body.dark .aviso-item strong {
+      color: #fbbf24;
+    }
+
+    .aviso-footer {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      color: #92400e;
+      font-style: italic;
+    }
+
+    body.dark .aviso-footer {
+      color: #fde68a;
+    }
+
+    /* ── VIDEO ── */
+    .video-section {
+      margin-bottom: 48px;
+    }
+
+    .video-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .video-label::before {
+      content: '';
+      width: 3px;
+      height: 12px;
+      background: var(--green-500);
+      border-radius: 2px;
+    }
+
+    .video-wrap {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(22, 163, 74, .07);
+    }
+
+    .video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-caption {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-soft);
+    }
+
+    .video-caption .yt-icon {
+      width: 30px;
+      height: 30px;
+      background: #ff0000;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .video-caption-text strong {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .video-caption-text span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ── PROGRESS ── */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green-500), var(--green-400));
+      z-index: 100;
+      width: 0%;
+      transition: width 0.1s;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-med);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--green-300);
+    }
+
+    @media (max-width: 860px) {
+      #sidebar {
+        display: none;
+      }
+
+      #main {
+        margin-left: 0;
+      }
+
+      .content {
+        padding: 32px 20px 80px;
+      }
+
+      .topbar {
+        padding: 12px 20px;
+      }
+    }
+
+    /* ─── DARK MODE ── */
+    body.dark {
+      --bg: #0d1f14;
+      --bg-soft: #112018;
+      --bg-code: #152a1e;
+      --text: #f0fdf4;
+      --text-secondary: #d1fae5;
+      --text-muted: #94a3b8;
+      --text-light: #4b7a60;
+      --border: #1e3d2a;
+      --border-med: #254d33;
+    }
+
+    body.dark #sidebar {
+      background: #0a1810;
+    }
+
+    body.dark .topbar {
+      background: rgba(10, 24, 16, .92);
+    }
+
+    body.dark .sidebar-logo,
+    body.dark .sidebar-footer {
+      border-color: var(--border);
+    }
+
+    body.dark .class-card {
+      background: #112018;
+    }
+
+    body.dark .method-block {
+      background: #0a1810;
+    }
+
+    /* ─── TOGGLE BUTTON ── */
+    .theme-toggle {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, border-color .15s;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .theme-toggle:hover {
+      background: var(--green-100);
+      border-color: var(--green-300);
+    }
+  </style>
+  <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');</script>
+</head>
+
+<body>
+
+  <div id="progress"></div>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🏥</div>
+      <div>
+        <div class="logo-text">Atividade — P.O.O</div>
+        <div class="logo-sub">Ciclo Avaliativo 2 · ADS</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Visão geral</div>
+      <a class="nav-item active" href="#objetivo">
+        <span class="nav-num">🎯</span> Objetivo
+      </a>
+      <a class="nav-item" href="#estrutura">
+        <span class="nav-num">🌿</span> Estrutura de classes
+      </a>
+
+      <div class="nav-group-label">Classes</div>
+      <a class="nav-item" href="#paciente">
+        <span class="nav-num">🩺</span> Paciente (base)
+      </a>
+      <a class="nav-item" href="#particular">
+        <span class="nav-num">🏥</span> PacienteParticular
+      </a>
+      <a class="nav-item" href="#convenio">
+        <span class="nav-num">🚑</span> PacienteConvenio
+      </a>
+
+      <div class="nav-group-label">Avaliação</div>
+      <a class="nav-item" href="#criterios">
+        <span class="nav-num">🍪</span> Critérios
+      </a>
+      <a class="nav-item" href="#entrega">
+        <span class="nav-num">📁</span> Entrega no GitHub
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div style="margin-bottom:6px; font-weight:600; color:var(--text-muted);">Conceitos avaliados</div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <div style="font-size:0.72rem;">🔵 Herança</div>
+        <div style="font-size:0.72rem;">🟣 Polimorfismo</div>
+        <div style="font-size:0.72rem;">🟢 Encapsulamento</div>
+        <div style="font-size:0.72rem;">🟡 Sobrescrita de métodos</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <div id="main">
+
+    <div class="topbar">
+      <a class="topbar-back" href="../index.html">← Início</a>
+      <span class="topbar-title">Atividade — P.O.O · Ciclo Avaliativo 2</span>
+      <div class="topbar-tags">
+        <span class="chip">Python 3.x</span>
+        <span class="chip">ADS</span>
+        <span class="chip">100 pts</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Alternar modo claro/escuro">🌙</button>
+    </div>
+
+    <div class="content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div class="eyebrow">Fundamentos da Programação · Ciclo Avaliativo 2</div>
+        <h1>Sistema de Gestão de<br>Pacientes e Atendimentos</h1>
+        <p>Desenvolva um sistema orientado a objetos que gerencie diferentes tipos de pacientes de uma clínica médica,
+          aplicando Herança, Polimorfismo e Encapsulamento.</p>
+        <div class="badge-row">
+          <span class="badge">Herança</span>
+          <span class="badge">Polimorfismo</span>
+          <span class="badge">Encapsulamento</span>
+          <span class="badge">Entrega via GitHub</span>
+          <span class="badge">100 pts</span>
+        </div>
+      </div>
+
+      <!-- AVISO INICIAL -->
+      <div class="aviso-card">
+        <div class="aviso-header">👋 Olá, pessoal! Chegou a hora de colocar em prática o que vocês aprenderam em
+          Estrutura de dados até agora. 🚀</div>
+
+        <div class="aviso-item">
+          <span class="aviso-check">✅</span>
+          <span><strong>Prazo:</strong> você tem até <strong>03/07/2026, às 23:00</strong> para entregar a avaliação.
+            Não deixe pra última hora! ⏰</span>
+        </div>
+        <div class="aviso-item">
+          <span class="aviso-check">✅</span>
+          <span><strong>Entrega no GitHub:</strong> a avaliação precisa estar em um repositório no seu GitHub.</span>
+        </div>
+        <div class="aviso-item">
+          <span class="aviso-check">✅</span>
+          <span><strong>README do projeto no repositório:</strong> contendo a descrição do projeto, explicação das
+            classes e métodos, exemplos de execução e o seu nome ao final.</span>
+        </div>
+        <div class="aviso-item">
+          <span class="aviso-check">✅</span>
+          <span><strong>Envie o link:</strong> poste o link do repositório no link da atividade para que eu possa
+            avaliar. 🔗</span>
+        </div>
+        <div class="aviso-item">
+          <span class="aviso-check">✅</span>
+          <span><strong>Leia com calma:</strong> faça com calma e leia e releia o enunciado quantas vezes for
+            necessário. 📖</span>
+        </div>
+
+        <div class="aviso-footer">Para te orientar, segue um vídeo que eu preparei como exemplo — assista e use como
+          referência enquanto monta sua avaliação. 🎥</div>
+      </div>
+
+      <!-- VÍDEO DE EXEMPLO -->
+      <div class="video-section">
+        <div class="video-label">▶ Vídeo de exemplo</div>
+        <div class="video-wrap">
+          <div class="video-responsive">
+            <iframe src="https://www.youtube.com/embed/Fi5ReC6oi0Y?si=ghCjWwhF82yFwFeH"
+              title="Exemplo — P.O.O em Python"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="video-caption">
+            <div class="yt-icon">▶</div>
+            <div class="video-caption-text">
+              <strong>Exemplo de referência — P.O.O em Python</strong>
+              <span>Assista antes de começar a codificar · YouTube</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OBJETIVO -->
+      <section id="objetivo" style="scroll-margin-top:80px; margin-bottom:48px;">
+        <div class="story-box">
+          <div class="story-label">🎯 Objetivo da atividade</div>
+          <h3>O que você vai construir?</h3>
+          <p>Uma clínica médica precisa de um sistema em Python para gerenciar seus pacientes. Existem dois tipos:
+            pacientes <strong>particulares</strong> (pagam diretamente pelo atendimento) e pacientes <strong>por
+              convênio</strong> (atendidos via plano de saúde). Cada tipo tem características e comportamentos
+            distintos, mas compartilham uma base comum.</p>
+          <p>Você vai modelar essa realidade usando os pilares da <strong>Programação Orientada a Objetos</strong>: uma
+            superclasse <code class="inline">Paciente</code> com atributos e métodos comuns, e duas subclasses que
+            herdam e estendem esse comportamento com suas particularidades.</p>
+          <p style="margin-top:4px; font-size:0.85rem; color:var(--green-700); font-weight:600;">💡 Leia todo o
+            enunciado antes de começar a codificar — a estrutura foi pensada para se encaixar.</p>
+        </div>
+      </section>
+
+      <!-- ESTRUTURA -->
+      <section id="estrutura" style="scroll-margin-top:80px; margin-bottom:36px;">
+        <div class="section-label">🌿 Estrutura de classes e herança</div>
+        <div style="overflow-x:auto; margin-bottom:8px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Nome da classe</th>
+                <th>Relação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🩺 Superclasse</td>
+                <td><code class="inline">Paciente</code></td>
+                <td>Classe base com atributos e métodos comuns</td>
+              </tr>
+              <tr>
+                <td>🏥 Subclasse 1</td>
+                <td><code class="inline">PacienteParticular</code></td>
+                <td>Herda de <code class="inline">Paciente</code> — pagamento direto</td>
+              </tr>
+              <tr>
+                <td>🚑 Subclasse 2</td>
+                <td><code class="inline">PacienteConvenio</code></td>
+                <td>Herda de <code class="inline">Paciente</code> — atendimento por convênio</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ══════ CLASSE BASE ══════ -->
+      <div id="paciente" class="class-card">
+        <div class="class-header">
+          <div class="class-header-left">
+            <div class="class-icon">🩺</div>
+            <div class="class-title-block">
+              <h3>Classe Base — <code style="font-size:0.95rem;">Paciente</code></h3>
+              <div class="class-subtitle">características comuns a qualquer paciente da clínica</div>
+            </div>
+          </div>
+          <span class="class-type-badge type-super">Superclasse</span>
+        </div>
+
+        <div class="class-body">
+          <p>Representa a base do sistema. Contém as informações e comportamentos que todo paciente — independente do
+            tipo — deve ter.</p>
+
+          <div class="section-label">Atributos (6 obrigatórios)</div>
+          <ul class="attr-list">
+            <li><code>nome</code> <span class="attr-desc">— string · nome completo do paciente</span></li>
+            <li><code>data_nascimento</code> <span class="attr-desc">— string · data de nascimento no formato
+                "DD/MM/AAAA"</span></li>
+            <li><code>cpf</code> <span class="attr-desc">— string · CPF do paciente</span></li>
+            <li><code>telefone</code> <span class="attr-desc">— string · número de contato</span></li>
+            <li><code>tipo_sanguineo</code> <span class="attr-desc">— string · ex: "A+", "O-", "AB+"</span></li>
+            <li><code>numero_prontuario</code> <span class="attr-desc">— string · identificador único na clínica</span>
+            </li>
+          </ul>
+
+          <div class="section-label">Métodos (mínimo 2)</div>
+
+          <div class="method-block">
+            <div class="method-sig">registrar_atendimento(tipo, custo)</div>
+            <ul>
+              <li>Exibe a informação de que o paciente passou por um atendimento do <code class="inline">tipo</code>
+                informado, com <code class="inline">custo</code> de tanto.</li>
+            </ul>
+          </div>
+
+          <div class="method-block">
+            <div class="method-sig">exibir_informacoes(detalhado)</div>
+            <ul>
+              <li>Se <code class="inline">False</code> → exibe apenas <code class="inline">nome</code>, <code
+                  class="inline">numero_prontuario</code> e <code class="inline">tipo_sanguineo</code></li>
+              <li>Se <code class="inline">True</code> → exibe todos os 6 atributos</li>
+            </ul>
+          </div>
+
+          <div class="callout tip">
+            <span class="callout-icon">💡</span>
+            <div><strong>Boas práticas</strong>Use <code class="inline">__init__</code> para receber e inicializar todos
+              os atributos. Prefixe atributos que devem ser privados com <code class="inline">_</code> (ex: <code
+                class="inline">self._cpf</code>) para sinalizar encapsulamento.</div>
+          </div>
+        </div>
+
+        <div class="class-footer">
+          <div class="concept-tags">
+            <span class="concept-tag">__init__</span>
+            <span class="concept-tag">atributos de instância</span>
+            <span class="concept-tag">métodos</span>
+            <span class="concept-tag">encapsulamento</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ SUBCLASSE PARTICULAR ══════ -->
+      <div id="particular" class="class-card">
+        <div class="class-header">
+          <div class="class-header-left">
+            <div class="class-icon">🏥</div>
+            <div class="class-title-block">
+              <h3>Subclasse — <code style="font-size:0.95rem;">PacienteParticular</code></h3>
+              <div class="class-subtitle">herda de Paciente · pagamento direto pelo atendimento</div>
+            </div>
+          </div>
+          <span class="class-type-badge type-sub">Subclasse</span>
+        </div>
+
+        <div class="class-body">
+          <p>Herda todos os atributos e métodos de <code class="inline">Paciente</code> e adiciona características
+            específicas de pacientes que pagam diretamente pelo atendimento.</p>
+
+          <div class="callout info">
+            <span class="callout-icon">ℹ️</span>
+            <div><strong>Herança obrigatória</strong>Use <code class="inline">super().__init__(...)</code> no <code
+                class="inline">__init__</code> desta classe para inicializar os 6 atributos da superclasse antes de
+              definir os atributos adicionais.</div>
+          </div>
+
+          <div class="section-label">Atributos adicionais (2)</div>
+          <ul class="attr-list">
+            <li><code>forma_pagamento</code> <span class="attr-desc">— string · ex: "Cartão", "Pix", "Dinheiro"</span>
+            </li>
+            <li><code>desconto_fidelidade</code> <span class="attr-desc">— float · desconto aplicado por fidelidade (ex:
+                0.10 = 10%)</span></li>
+          </ul>
+
+          <div class="section-label">Métodos (mínimo 2)</div>
+
+          <div class="method-block">
+            <div class="method-sig">calcular_valor_final(valor_consulta, taxa_urgencia)</div>
+            <ul>
+              <li>Adiciona <code class="inline">taxa_urgencia</code> ao cálculo caso o atendimento seja de urgência</li>
+              <li>Aplica <code class="inline">desconto_fidelidade * valor_consulta</code> sobre o valor</li>
+              <li>Retorna o valor final calculado</li>
+            </ul>
+          </div>
+
+          <div class="method-block">
+            <div class="method-sig">exibir_informacoes(detalhado)</div>
+            <ul>
+              <li>Sobrescreve o método da superclasse</li>
+              <li>Deve chamar <code class="inline">super().exibir_informacoes(detalhado)</code> e acrescentar <code
+                  class="inline">forma_pagamento</code> e <code class="inline">desconto_fidelidade</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="class-footer">
+          <div class="concept-tags">
+            <span class="concept-tag">super().__init__</span>
+            <span class="concept-tag">herança</span>
+            <span class="concept-tag">sobrescrita</span>
+            <span class="concept-tag">polimorfismo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ SUBCLASSE CONVÊNIO ══════ -->
+      <div id="convenio" class="class-card">
+        <div class="class-header">
+          <div class="class-header-left">
+            <div class="class-icon">🚑</div>
+            <div class="class-title-block">
+              <h3>Subclasse — <code style="font-size:0.95rem;">PacienteConvenio</code></h3>
+              <div class="class-subtitle">herda de Paciente · atendimento via plano de saúde</div>
+            </div>
+          </div>
+          <span class="class-type-badge type-sub">Subclasse</span>
+        </div>
+
+        <div class="class-body">
+          <p>Herda todos os atributos e métodos de <code class="inline">Paciente</code> e adiciona características
+            específicas de pacientes atendidos via convênio médico.</p>
+
+          <div class="callout info">
+            <span class="callout-icon">ℹ️</span>
+            <div><strong>Herança obrigatória</strong>Use <code class="inline">super().__init__(...)</code> no <code
+                class="inline">__init__</code> desta classe para inicializar os 6 atributos da superclasse antes de
+              definir os atributos adicionais.</div>
+          </div>
+
+          <div class="section-label">Atributos adicionais (2)</div>
+          <ul class="attr-list">
+            <li><code>nome_convenio</code> <span class="attr-desc">— string · nome do plano de saúde (ex: "Unimed",
+                "Amil")</span></li>
+            <li><code>numero_carteirinha</code> <span class="attr-desc">— string · número da carteirinha do
+                convênio</span></li>
+          </ul>
+
+          <div class="section-label">Métodos (mínimo 2)</div>
+
+          <div class="method-block">
+            <div class="method-sig">registrar_autorizacao(procedimento, valor_glosa)</div>
+            <ul>
+              <li>Exibe o <code class="inline">procedimento</code> autorizado pelo convênio</li>
+              <li>Exibe o valor da <code class="inline">glosa</code> (caso não haja glosa, passar <code
+                  class="inline">0</code>)</li>
+            </ul>
+          </div>
+
+          <div class="method-block">
+            <div class="method-sig">exibir_informacoes(detalhado)</div>
+            <ul>
+              <li>Sobrescreve o método da superclasse</li>
+              <li>Deve chamar <code class="inline">super().exibir_informacoes(detalhado)</code> e acrescentar <code
+                  class="inline">nome_convenio</code> e <code class="inline">numero_carteirinha</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="class-footer">
+          <div class="concept-tags">
+            <span class="concept-tag">super().__init__</span>
+            <span class="concept-tag">herança</span>
+            <span class="concept-tag">sobrescrita</span>
+            <span class="concept-tag">polimorfismo</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════ CRITÉRIOS ══════ -->
+      <section id="criterios" style="scroll-margin-top:80px; margin-bottom:48px;">
+        <div class="section-label" style="margin-bottom:16px;">🍪 Critérios de avaliação</div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Critério</th>
+                <th>Descrição</th>
+                <th style="text-align:right;">Pontos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Classes</td>
+                <td>Criação correta de <code class="inline">Paciente</code>, <code
+                    class="inline">PacienteParticular</code>, <code class="inline">PacienteConvenio</code></td>
+                <td style="text-align:right; font-family:var(--mono);">10</td>
+              </tr>
+              <tr>
+                <td>Herança</td>
+                <td>Uso adequado de <code class="inline">super().__init__(...)</code> nas subclasses</td>
+                <td style="text-align:right; font-family:var(--mono);">20</td>
+              </tr>
+              <tr>
+                <td>Atributos</td>
+                <td>Implementação correta dos atributos em todas as classes</td>
+                <td style="text-align:right; font-family:var(--mono);">20</td>
+              </tr>
+              <tr>
+                <td>Polimorfismo / Sobrecarga</td>
+                <td>Uso de parâmetros e métodos sobrecarregados</td>
+                <td style="text-align:right; font-family:var(--mono);">30</td>
+              </tr>
+              <tr>
+                <td>Sobrescrita</td>
+                <td>Uso correto de <code class="inline">super().metodo()</code> para complementar o comportamento</td>
+                <td style="text-align:right; font-family:var(--mono);">20</td>
+              </tr>
+              <tr class="pts-total">
+                <td colspan="2" style="font-weight:700;">TOTAL</td>
+                <td
+                  style="text-align:right; font-family:var(--mono); font-weight:700; color:var(--green-700) !important;">
+                  100 pts</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ══════ ENTREGA GITHUB ══════ -->
+      <section id="entrega" style="scroll-margin-top:80px; margin-bottom:36px;">
+        <div class="section-label" style="margin-bottom:16px;">📁 Entrega no GitHub</div>
+
+        <div class="entrega-card">
+          <div class="entrega-header">
+            <div class="gh-icon">🐙</div>
+            <div>
+              <strong>Repositório no GitHub</strong><br>
+              <span>O projeto deve ser publicado contendo todos os arquivos antes do prazo</span>
+            </div>
+          </div>
+          <div class="entrega-body">
+
+            <div
+              style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#8b949e; margin-bottom:10px;">
+              Estrutura esperada do repositório</div>
+            <div class="file-tree">
+              <span class="dir">seu-repositorio/</span>
+              ├── <span class="file">paciente.py</span> <span class="note"># classe Paciente (base)</span>
+              ├── <span class="file">paciente_particular.py</span> <span class="note"># classe PacienteParticular</span>
+              ├── <span class="file">paciente_convenio.py</span> <span class="note"># classe PacienteConvenio</span>
+              ├── <span class="file">main.py</span> <span class="note"># demonstração de uso das classes</span>
+              └── <span class="file">README.md</span> <span class="note"># documentação do projeto</span>
+            </div>
+
+            <div
+              style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#8b949e; margin-bottom:10px;">
+              O README.md deve conter</div>
+            <ul class="readme-list">
+              <li>Descrição do projeto e contexto (a clínica médica)</li>
+              <li>Explicação das classes, atributos e métodos implementados</li>
+              <li>Exemplos de execução com saída esperada no terminal</li>
+              <li>Nome completo do aluno</li>
+            </ul>
+
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div><strong>Atenção ao prazo</strong>O link do repositório deve ser enviado até a data de entrega definida
+            pelo professor. Repositórios privados sem acesso ao avaliador não serão corrigidos.</div>
+        </div>
+      </section>
+
+      <!-- NOTA FINAL -->
+      <div class="story-box" style="margin-top:8px;">
+        <div class="story-label">🚀 Bons estudos!</div>
+        <h3>Dicas para um projeto nota 10</h3>
+        <p>Comece pela superclasse <code class="inline">Paciente</code> e teste-a antes de criar as subclasses. Use o
+          método <code class="inline">exibir_informacoes()</code> para validar cada etapa. Lembre-se: <code
+            class="inline">super()</code> é seu aliado — ele garante que o comportamento da classe pai seja preservado e
+          complementado, não substituído.</p>
+        <p>Um bom <code class="inline">README.md</code> mostra que você entendeu o projeto — não subestime essa parte da
+          entrega. 💪</p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      document.getElementById('progress').style.width = p + '%';
+    });
+
+    const navLinks = document.querySelectorAll('.nav-item[href]');
+    const sections = document.querySelectorAll('[id]');
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => obs.observe(s));
+
+    // ─── Modo claro / escuro ───────────────
+    const themeToggle = document.getElementById('themeToggle');
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeToggle.textContent = dark ? '☀️' : '🌙';
+      themeToggle.title = dark ? 'Mudar para modo claro' : 'Mudar para modo escuro';
+    }
+
+    applyTheme(localStorage.getItem('theme') === 'dark');
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      applyTheme(!isDark);
+    });
+  </script>
+</body>
+
+</html>
