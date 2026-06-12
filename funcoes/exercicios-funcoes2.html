@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercícios — Funções em Python · Clínica</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-900: #14532d;
+  --green-800: #166534;
+  --green-700: #15803d;
+  --green-600: #16a34a;
+  --green-500: #22c55e;
+  --green-400: #4ade80;
+  --green-300: #86efac;
+  --green-200: #bbf7d0;
+  --green-100: #dcfce7;
+  --green-50:  #f0fdf4;
+
+  --text:           #111827;
+  --text-secondary: #374151;
+  --text-muted:     #6b7280;
+  --text-light:     #9ca3af;
+  --border:         #e5e7eb;
+  --border-med:     #d1d5db;
+  --bg:             #ffffff;
+  --bg-soft:        #f9fafb;
+  --bg-code:        #f3f4f6;
+
+  --sidebar-w: 260px;
+  --font: 'Inter', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; }
+
+/* ── SIDEBAR ── */
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w); height: 100vh;
+  background: var(--bg); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden; z-index: 50;
+}
+
+.sidebar-logo {
+  padding: 24px 24px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.logo-icon {
+  width: 34px; height: 34px; background: var(--green-600);
+  border-radius: 8px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+}
+
+.logo-text { font-size: 0.92rem; font-weight: 700; color: var(--green-700); line-height: 1.2; }
+.logo-sub  { font-size: 0.72rem; font-weight: 400; color: var(--text-muted); }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 16px 0; }
+
+.nav-group-label {
+  padding: 8px 24px 4px; font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-light);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px; padding: 8px 24px;
+  font-size: 0.82rem; color: var(--text-muted); text-decoration: none;
+  border-left: 2px solid transparent; transition: all 0.15s; cursor: pointer;
+}
+
+.nav-item:hover  { background: var(--green-50); color: var(--green-700); border-left-color: var(--green-300); }
+.nav-item.active { background: var(--green-50); color: var(--green-700); font-weight: 600; border-left-color: var(--green-600); }
+.nav-num { font-family: var(--mono); font-size: 0.68rem; color: var(--text-light); min-width: 18px; }
+
+.sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-light); }
+
+/* ── MAIN ── */
+#main { margin-left: var(--sidebar-w); min-height: 100vh; }
+
+/* ── TOP BAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border); padding: 14px 48px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+
+.topbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--green-700);
+  background: var(--green-50);
+  border: 1px solid var(--green-200);
+  padding: 5px 12px;
+  border-radius: 7px;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+  flex-shrink: 0;
+}
+.topbar-back:hover { background: var(--green-100); color: var(--green-800); }
+
+.topbar-title { font-size: 0.88rem; font-weight: 600; color: var(--text-secondary); }
+.topbar-tags  { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.chip {
+  font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+  background: var(--green-100); color: var(--green-700);
+  border: 1px solid var(--green-200); font-family: var(--mono);
+}
+
+/* ── CONTENT ── */
+.content { max-width: 820px; margin: 0 auto; padding: 56px 48px 120px; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
+
+.page-header .eyebrow {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--green-600); margin-bottom: 12px;
+}
+
+.page-header h1 {
+  font-size: 2.2rem; font-weight: 700; letter-spacing: -0.025em;
+  color: var(--text); line-height: 1.2; margin-bottom: 14px;
+}
+
+.page-header p { font-size: 1rem; color: var(--text-muted); max-width: 580px; margin-bottom: 24px; line-height: 1.7; }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.badge {
+  font-size: 0.72rem; font-weight: 600; padding: 4px 12px; border-radius: 6px;
+  background: var(--bg-soft); border: 1px solid var(--border);
+  color: var(--text-muted); font-family: var(--mono);
+}
+
+/* ── STORY BOX ── */
+.story-box {
+  background: var(--green-50); border: 1px solid var(--green-200);
+  border-left: 4px solid var(--green-500); border-radius: 10px;
+  padding: 24px 28px; margin-bottom: 48px;
+}
+
+.story-box .story-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--green-600); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.story-box h3 { font-size: 1.05rem; font-weight: 700; color: var(--green-800); margin-bottom: 10px; }
+.story-box p  { font-size: 0.92rem; color: var(--green-900); line-height: 1.7; margin-bottom: 8px; }
+.story-box p:last-child { margin-bottom: 0; }
+
+/* ── EXERCISE CARD ── */
+.ex-card {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  margin-bottom: 36px; scroll-margin-top: 80px; transition: box-shadow 0.2s;
+}
+
+.ex-card:hover { box-shadow: 0 4px 20px rgba(22,163,74,0.08); }
+
+.ex-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; padding: 22px 26px 18px; border-bottom: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.ex-header-left { display: flex; align-items: flex-start; gap: 14px; }
+
+.ex-num {
+  font-family: var(--mono); font-size: 1.1rem; font-weight: 700;
+  color: var(--green-500); line-height: 1; min-width: 28px; padding-top: 3px;
+}
+
+.ex-title-block h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+.ex-title-block .ex-subtitle { font-size: 0.8rem; color: var(--text-muted); font-family: var(--mono); }
+
+.diff-badge {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 4px 10px; border-radius: 20px;
+  white-space: nowrap; flex-shrink: 0;
+}
+
+.diff-easy   { background: var(--green-100); color: var(--green-700); border: 1px solid var(--green-300); }
+.diff-medium { background: #fef9c3; color: #854d0e; border: 1px solid #fde68a; }
+.diff-hard   { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+.ex-body { padding: 24px 26px; }
+.ex-body > p { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.7; }
+
+/* ── REQUISITOS ── */
+.req-list { margin: 0 0 20px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+.req-list li {
+  display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem;
+  color: var(--text-secondary); padding: 8px 12px;
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: 7px;
+}
+
+.req-list li::before { content: '→'; color: var(--green-500); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+/* ── LABEL ── */
+.ex-label {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.ex-label::before { content: ''; width: 3px; height: 12px; background: var(--green-500); border-radius: 2px; }
+
+/* ── CODE BLOCK ── */
+.code-wrap { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); margin: 12px 0 20px; font-size: 0.83rem; }
+
+.code-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 14px; background: var(--bg-soft); border-bottom: 1px solid var(--border);
+}
+
+.code-dots { display: flex; gap: 5px; }
+.code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.code-dots span:nth-child(1) { background: #ff5f57; }
+.code-dots span:nth-child(2) { background: #febc2e; }
+.code-dots span:nth-child(3) { background: #28c840; }
+
+.code-title { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); font-family: var(--mono); }
+
+.code-lang {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--green-600); background: var(--green-50);
+  border: 1px solid var(--green-100); padding: 2px 7px; border-radius: 4px; font-family: var(--mono);
+}
+
+pre { background: #1e1e2e; padding: 20px; overflow-x: auto; line-height: 1.75; color: #cdd6f4; }
+code { font-family: var(--mono); }
+
+/* Syntax — dark theme */
+.kw  { color: #cba6f7; font-weight: 600; }
+.fn  { color: #a6e3a1; font-weight: 600; }
+.str { color: #a6e3a1; }
+.num { color: #fab387; }
+.cm  { color: #6c7086; font-style: italic; }
+.bi  { color: #89dceb; }
+.prm { color: #f38ba8; }
+.var { color: #cdd6f4; }
+.kv  { color: #89b4fa; }
+
+/* Output block */
+.output-wrap { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; margin: 12px 0 20px; font-size: 0.83rem; }
+
+.output-bar {
+  display: flex; align-items: center; gap: 7px; padding: 7px 14px;
+  background: #161b22; border-bottom: 1px solid #30363d;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #8b949e; font-family: var(--mono);
+}
+
+.output-bar::before { content: '▶'; color: #3fb950; font-size: 0.7rem; }
+
+.output-pre {
+  background: #0d1117; padding: 16px 20px; font-family: var(--mono);
+  font-size: 0.83rem; color: #e6edf3; line-height: 1.7; white-space: pre; overflow-x: auto;
+}
+
+.out-green  { color: #3fb950; }
+.out-yellow { color: #e3b341; }
+.out-red    { color: #f85149; }
+.out-blue   { color: #79c0ff; }
+.out-muted  { color: #8b949e; }
+
+/* ── CALLOUT ── */
+.callout { display: flex; gap: 12px; padding: 14px 18px; border-radius: 8px; margin: 16px 0; font-size: 0.88rem; line-height: 1.6; }
+.callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.callout.tip  { background: var(--green-50);  border: 1px solid var(--green-200); color: var(--green-800); }
+.callout.info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+.callout.warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+
+.callout strong { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+
+code.inline {
+  font-family: var(--mono); font-size: 0.82em; background: var(--bg-code);
+  border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; color: var(--green-700);
+}
+
+/* ── GABARITO ── */
+.gabarito-toggle {
+  display: flex; align-items: center; gap: 10px; padding: 11px 16px;
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--text-muted);
+  transition: all 0.15s; user-select: none; margin-top: 4px;
+}
+
+.gabarito-toggle:hover { background: var(--green-50); color: var(--green-700); border-color: var(--green-300); }
+.gabarito-toggle.open  { background: var(--green-50); color: var(--green-700); border-color: var(--green-400); border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-bottom: none; }
+.gabarito-toggle .toggle-icon { transition: transform 0.2s; font-style: normal; }
+
+.gabarito-body {
+  display: none; border: 1px solid var(--green-300); border-top: none;
+  border-radius: 0 0 8px 8px; background: var(--green-50); padding: 0; overflow: hidden;
+}
+
+.gabarito-body.show { display: block; }
+.gabarito-body .code-wrap { margin: 0; border-radius: 0; border: none; border-top: 1px solid var(--green-200); }
+.gabarito-body .code-wrap:first-child { border-top: none; }
+
+/* ── EX FOOTER ── */
+.ex-footer {
+  padding: 14px 26px; border-top: 1px solid var(--border); background: var(--bg-soft);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+
+.concept-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.concept-tag {
+  font-size: 0.68rem; font-weight: 600; font-family: var(--mono); padding: 3px 9px;
+  border-radius: 4px; background: var(--green-100); color: var(--green-700); border: 1px solid var(--green-200);
+}
+
+.pontos { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); font-family: var(--mono); }
+
+/* ── TABLE ── */
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 16px 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+thead { background: var(--bg-soft); }
+th { padding: 10px 14px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); border-bottom: 1px solid var(--border); font-weight: 600; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--green-50); }
+td:first-child { color: var(--green-700); font-weight: 600; }
+
+/* ── PROGRESS ── */
+#progress { position: fixed; top: 0; left: 0; height: 2px; background: linear-gradient(90deg, var(--green-500), var(--green-400)); z-index: 100; width: 0%; transition: width 0.1s; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-med); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-300); }
+
+@media (max-width: 860px) {
+  #sidebar { display: none; }
+  #main { margin-left: 0; }
+  .content { padding: 32px 20px 80px; }
+  .topbar { padding: 12px 20px; }
+}
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+  --text:           #e2e8f0;
+  --text-secondary: #cbd5e1;
+  --text-muted:     #94a3b8;
+  --text-light:     #64748b;
+  --border:         #2d3748;
+  --border-med:     #374151;
+  --bg:             #0f172a;
+  --bg-soft:        #1e293b;
+  --bg-code:        #1e293b;
+  --green-50:       #052e16;
+  --green-100:      #14532d;
+  --green-200:      #166534;
+  --green-700:      #4ade80;
+  --green-800:      #86efac;
+  --green-900:      #bbf7d0;
+}
+
+[data-theme="dark"] body          { background: var(--bg); }
+[data-theme="dark"] nav,
+[data-theme="dark"] #sidebar      { background: #0f172a; }
+[data-theme="dark"] .topbar       { background: rgba(15,23,42,0.92); }
+[data-theme="dark"] .hero         { background: linear-gradient(160deg, #052e16 0%, #0f172a 55%, #1e293b 100%); }
+[data-theme="dark"] .about-card,
+[data-theme="dark"] .material-card,
+[data-theme="dark"] .recurso-card,
+[data-theme="dark"] .ex-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .quiz-item    { background: #1e293b; border-color: #2d3748; }
+[data-theme="dark"] .story-box    { background: #052e16; border-color: #166534; }
+[data-theme="dark"] .scope-box    { background: #1e293b; }
+[data-theme="dark"] .scope-local-box { background: #052e16; }
+[data-theme="dark"] .callout.tip  { background: #052e16; border-color: #166534; color: #86efac; }
+[data-theme="dark"] .callout.info { background: #0c1a3a; border-color: #1e3a6e; color: #93c5fd; }
+[data-theme="dark"] .callout.warn { background: #1c1400; border-color: #713f12; color: #fde68a; }
+[data-theme="dark"] .callout.bad  { background: #1c0a0a; border-color: #7f1d1d; color: #fca5a5; }
+[data-theme="dark"] .ex-header,
+[data-theme="dark"] .ex-footer,
+[data-theme="dark"] .code-bar,
+[data-theme="dark"] .material-card-footer { background: #152032; }
+[data-theme="dark"] .section-wrap,
+[data-theme="dark"] .video-section { background: #0f172a; }
+[data-theme="dark"] footer        { background: #0a1120; }
+[data-theme="dark"] .cronograma-table thead { background: #1e293b; }
+[data-theme="dark"] .req-list li  { background: #1e293b; border-color: #2d3748; }
+[data-theme="dark"] .quiz-opt     { background: #1e293b; border-color: #2d3748; color: var(--text-muted); }
+[data-theme="dark"] .gabarito-toggle { background: #1e293b; border-color: #2d3748; color: var(--text-muted); }
+[data-theme="dark"] .gabarito-toggle.open,
+[data-theme="dark"] .gabarito-body { background: #052e16; border-color: #166534; }
+[data-theme="dark"] table thead   { background: #1e293b; }
+[data-theme="dark"] tr:hover td   { background: #1a2e1a; }
+[data-theme="dark"] .anat-item    { background: #1e293b; border-color: #2d3748; }
+[data-theme="dark"] .summary-card { background: #1e293b; border-color: #2d3748; }
+[data-theme="dark"] code.inline   { background: #1e293b; border-color: #2d3748; color: #4ade80; }
+[data-theme="dark"] .nav-item:hover,
+[data-theme="dark"] .nav-item.active { background: #052e16; }
+[data-theme="dark"] .material-card:hover { border-color: #4ade80; }
+[data-theme="dark"] .material-card.soon  { opacity: 0.4; }
+[data-theme="dark"] .video-wrap   { border-color: #2d3748; }
+[data-theme="dark"] .bp-item      { border-bottom-color: #2d3748; }
+[data-theme="dark"] .anatomy      { border-color: #2d3748; }
+
+/* Theme toggle button */
+.theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.theme-toggle:hover {
+  background: var(--green-50);
+  border-color: var(--green-300);
+}
+
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">🏥</div>
+    <div>
+      <div class="logo-text">Lista de Exercícios</div>
+      <div class="logo-sub">Funções em Python · ADS</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Contexto</div>
+    <a class="nav-item active" href="#contexto">
+      <span class="nav-num">📖</span> A Clínica Vida+
+    </a>
+
+    <div class="nav-group-label">Exercícios</div>
+    <a class="nav-item" href="#ex1">
+      <span class="nav-num">01</span> Calcular o IMC do paciente
+    </a>
+    <a class="nav-item" href="#ex2">
+      <span class="nav-num">02</span> Classificar IMC e risco
+    </a>
+    <a class="nav-item" href="#ex3">
+      <span class="nav-num">03</span> Emitir ficha de triagem
+    </a>
+    <a class="nav-item" href="#ex4">
+      <span class="nav-num">04</span> Relatório diário da clínica
+    </a>
+    <a class="nav-item" href="#ex5">
+      <span class="nav-num">05</span> Sistema de priorização
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div>Nível de dificuldade</div>
+    <div style="display:flex; flex-direction:column; gap:4px; margin-top:8px;">
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem;">
+        <span style="width:10px;height:10px;border-radius:50%;background:var(--green-400);flex-shrink:0;"></span> Fácil (01–02)
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem;">
+        <span style="width:10px;height:10px;border-radius:50%;background:#eab308;flex-shrink:0;"></span> Intermediário (03–04)
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem;">
+        <span style="width:10px;height:10px;border-radius:50%;background:#f87171;flex-shrink:0;"></span> Desafiador (05)
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div id="main">
+
+  <div class="topbar">
+    <a class="topbar-back" href="../index.html">← Início</a>
+    <span class="topbar-title">Exercícios — Funções em Python 🏥</span>
+    <div class="topbar-tags">
+      <span class="chip">Python 3.x</span>
+      <span class="chip">ADS</span>
+      <span class="chip">5 exercícios</span>
+    </div>
+    <button class="theme-toggle" id="themeToggle" title="Alternar modo claro/escuro">🌙</button>
+  </div>
+
+  <div class="content">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="eyebrow">Fundamentos da Programação · Análise e Desenvolvimento de Sistemas</div>
+      <h1>Lista de Exercícios — Funções</h1>
+      <p>Cinco exercícios progressivos ambientados no sistema de triagem da <strong>Clínica Vida+</strong>. Cada exercício explora um conceito diferente de funções em Python, do básico ao intermediário.</p>
+      <div class="badge-row">
+        <span class="badge">5 exercícios</span>
+        <span class="badge">def · params · return</span>
+        <span class="badge">escopo · reutilização</span>
+        <span class="badge">fácil → intermediário</span>
+      </div>
+    </div>
+
+    <!-- CONTEXTO -->
+    <section id="contexto" style="scroll-margin-top:80px; margin-bottom:48px;">
+      <div class="story-box">
+        <div class="story-label">📖 Contexto da lista</div>
+        <h3>A Clínica Vida+ precisa de você!</h3>
+        <p>A <strong>Clínica Vida+</strong> é uma clínica de atendimento geral que está digitalizando sua triagem. O Dr. Marcos, responsável pela coordenação clínica, quer um sistema em Python que calcule rapidamente indicadores de saúde dos pacientes — IMC, pressão arterial e prioridade de atendimento.</p>
+        <p>Ao longo dos cinco exercícios, você vai construir as funções desse sistema — uma por vez. Cada exercício resolve um problema real da clínica, e no exercício final todas as peças se encaixam. Ao terminar, você terá um mini-sistema de triagem funcional!</p>
+        <p style="margin-top:4px; font-size:0.85rem; color:var(--green-700); font-weight:600;">💡 Dica: leia todos os exercícios antes de começar — eles foram pensados para se complementar.</p>
+      </div>
+    </section>
+
+    <!-- ══════ EX 01 ══════ -->
+    <div id="ex1" class="ex-card">
+      <div class="ex-header">
+        <div class="ex-header-left">
+          <div class="ex-num">01</div>
+          <div class="ex-title-block">
+            <h3>Calcular o IMC do paciente</h3>
+            <div class="ex-subtitle">funções com parâmetros e return</div>
+          </div>
+        </div>
+        <span class="diff-badge diff-easy">🟢 Fácil</span>
+      </div>
+
+      <div class="ex-body">
+        <p>O primeiro passo da triagem é calcular o <strong>Índice de Massa Corporal (IMC)</strong> do paciente. A fórmula é simples: o peso (em kg) dividido pela altura (em metros) ao quadrado.</p>
+
+        <div class="ex-label">Fórmula</div>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-top:-8px; margin-bottom:20px;">Fórmula: <code class="inline">imc = peso_kg / (altura_m ** 2)</code></p>
+
+        <div class="ex-label">O que a função deve fazer</div>
+        <ul class="req-list">
+          <li>Receber dois parâmetros: <code class="inline">peso_kg</code> e <code class="inline">altura_m</code> (ambos <code class="inline">float</code>)</li>
+          <li>Retornar o IMC como <code class="inline">float</code>, arredondado para 1 casa decimal</li>
+          <li>Se <code class="inline">peso_kg</code> ou <code class="inline">altura_m</code> forem menores ou iguais a zero, retornar <code class="inline">-1.0</code> indicando entrada inválida</li>
+        </ul>
+
+        <div class="ex-label">Exemplo de uso esperado</div>
+        <div class="code-wrap">
+          <div class="code-bar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-title">chamada da função</span>
+            <span class="code-lang">python</span>
+          </div>
+          <pre><code><span class="var">imc</span> = <span class="fn">calcular_imc</span>(<span class="num">70</span>, <span class="num">1.75</span>)
+<span class="bi">print</span>(<span class="str">f"IMC: {<span class="var">imc</span>}"</span>)
+
+<span class="var">imc2</span> = <span class="fn">calcular_imc</span>(<span class="num">95</span>, <span class="num">1.70</span>)
+<span class="bi">print</span>(<span class="str">f"IMC: {<span class="var">imc2</span>}"</span>)
+
+<span class="var">invalido</span> = <span class="fn">calcular_imc</span>(<span class="num">-5</span>, <span class="num">1.70</span>)
+<span class="bi">print</span>(<span class="str">f"IMC: {<span class="var">invalido</span>}"</span>)</code></pre>
+        </div>
+
+        <div class="ex-label">Saída esperada</div>
+        <div class="output-wrap">
+          <div class="output-bar">saída no terminal</div>
+          <div class="output-pre"><span class="out-green">IMC: 22.9</span>
+<span class="out-yellow">IMC: 32.9</span>
+<span class="out-red">IMC: -1.0</span></div>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div><strong>Dica</strong>Use a função <code class="inline">round(valor, 1)</code> para arredondar o resultado antes de retornar.</div>
+        </div>
+
+        <div class="ex-label" style="margin-top:20px;">Gabarito</div>
+        <div class="gabarito-toggle" onclick="toggleGabarito(this)">
+          <span class="toggle-icon">▶</span> Ver solução
+        </div>
+        <div class="gabarito-body">
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <span class="code-title">solução — exercício 01</span>
+              <span class="code-lang">python</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">calcular_imc</span>(<span class="prm">peso_kg</span>: <span class="bi">float</span>, <span class="prm">altura_m</span>: <span class="bi">float</span>) -> <span class="bi">float</span>:
+    <span class="str">"""Calcula o IMC do paciente.
+    Retorna -1.0 se peso ou altura forem inválidos (<= 0).
+    """</span>
+    <span class="kw">if</span> <span class="prm">peso_kg</span> <= <span class="num">0</span> <span class="kw">or</span> <span class="prm">altura_m</span> <= <span class="num">0</span>:
+        <span class="kw">return</span> <span class="num">-1.0</span>
+    <span class="kw">return</span> <span class="bi">round</span>(<span class="prm">peso_kg</span> / (<span class="prm">altura_m</span> ** <span class="num">2</span>), <span class="num">1</span>)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-footer">
+        <div class="concept-tags">
+          <span class="concept-tag">parâmetros</span>
+          <span class="concept-tag">return</span>
+          <span class="concept-tag">validação</span>
+          <span class="concept-tag">type hints</span>
+        </div>
+        <span class="pontos">2 pts</span>
+      </div>
+    </div>
+
+    <!-- ══════ EX 02 ══════ -->
+    <div id="ex2" class="ex-card">
+      <div class="ex-header">
+        <div class="ex-header-left">
+          <div class="ex-num">02</div>
+          <div class="ex-title-block">
+            <h3>Classificar IMC e verificar risco</h3>
+            <div class="ex-subtitle">parâmetro padrão · retorno múltiplo</div>
+          </div>
+        </div>
+        <span class="diff-badge diff-easy">🟢 Fácil</span>
+      </div>
+
+      <div class="ex-body">
+        <p>Com o IMC calculado, a clínica precisa saber em qual <strong>faixa de classificação</strong> o paciente se encontra, seguindo a tabela usada pela equipe médica. Pacientes com obesidade devem receber um alerta de risco cardiovascular.</p>
+
+        <div class="ex-label">Tabela de classificação</div>
+        <div style="overflow-x:auto; margin-bottom:20px;">
+          <table>
+            <thead>
+              <tr><th>IMC</th><th>Classificação</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>&lt; 18.5</td><td>Abaixo do peso</td></tr>
+              <tr><td>18.5 a 24.9</td><td>Peso normal ✅</td></tr>
+              <tr><td>25.0 a 29.9</td><td>Sobrepeso ⚠️</td></tr>
+              <tr><td>≥ 30.0</td><td>Obesidade ❌</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ex-label">O que a função deve fazer</div>
+        <ul class="req-list">
+          <li>Receber <code class="inline">imc</code> e <code class="inline">verificar_risco=True</code> (parâmetro com valor padrão)</li>
+          <li>Retornar uma <strong>tupla</strong>: <code class="inline">(classificacao, alerta)</code></li>
+          <li>Se <code class="inline">verificar_risco=True</code> e <code class="inline">imc >= 30.0</code>, o alerta deve ser <code class="inline">"Risco cardiovascular elevado 🚨"</code>; caso contrário, <code class="inline">""</code> (string vazia)</li>
+        </ul>
+
+        <div class="ex-label">Exemplo de uso esperado</div>
+        <div class="code-wrap">
+          <div class="code-bar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-title">chamada da função</span>
+            <span class="code-lang">python</span>
+          </div>
+          <pre><code><span class="var">classif</span>, <span class="var">alerta</span> = <span class="fn">classificar_imc</span>(<span class="num">22.9</span>)
+<span class="bi">print</span>(<span class="str">f"{<span class="var">classif</span>} {<span class="var">alerta</span>}"</span>)
+
+<span class="var">classif2</span>, <span class="var">alerta2</span> = <span class="fn">classificar_imc</span>(<span class="num">32.9</span>)
+<span class="bi">print</span>(<span class="str">f"{<span class="var">classif2</span>} {<span class="var">alerta2</span>}"</span>)
+
+<span class="var">classif3</span>, <span class="var">alerta3</span> = <span class="fn">classificar_imc</span>(<span class="num">27.3</span>, <span class="prm">verificar_risco</span>=<span class="kw">False</span>)
+<span class="bi">print</span>(<span class="str">f"{<span class="var">classif3</span>} {<span class="var">alerta3</span>}"</span>)</code></pre>
+        </div>
+
+        <div class="ex-label">Saída esperada</div>
+        <div class="output-wrap">
+          <div class="output-bar">saída no terminal</div>
+          <div class="output-pre"><span class="out-green">Peso normal ✅ </span>
+<span class="out-red">Obesidade ❌ Risco cardiovascular elevado 🚨</span>
+<span class="out-yellow">Sobrepeso ⚠️ </span></div>
+        </div>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div><strong>Lembre-se</strong>Para retornar múltiplos valores, basta separar por vírgula no <code class="inline">return</code>. Python os empacota automaticamente em uma tupla que pode ser desempacotada na chamada.</div>
+        </div>
+
+        <div class="ex-label" style="margin-top:20px;">Gabarito</div>
+        <div class="gabarito-toggle" onclick="toggleGabarito(this)">
+          <span class="toggle-icon">▶</span> Ver solução
+        </div>
+        <div class="gabarito-body">
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <span class="code-title">solução — exercício 02</span>
+              <span class="code-lang">python</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">classificar_imc</span>(<span class="prm">imc</span>: <span class="bi">float</span>, <span class="prm">verificar_risco</span>: <span class="bi">bool</span> = <span class="kw">True</span>) -> <span class="bi">tuple</span>:
+    <span class="str">"""Retorna (classificacao, alerta) com base no IMC."""</span>
+    <span class="kw">if</span> <span class="prm">imc</span> < <span class="num">18.5</span>:
+        <span class="var">classificacao</span> = <span class="str">"Abaixo do peso"</span>
+    <span class="kw">elif</span> <span class="prm">imc</span> < <span class="num">25.0</span>:
+        <span class="var">classificacao</span> = <span class="str">"Peso normal ✅"</span>
+    <span class="kw">elif</span> <span class="prm">imc</span> < <span class="num">30.0</span>:
+        <span class="var">classificacao</span> = <span class="str">"Sobrepeso ⚠️"</span>
+    <span class="kw">else</span>:
+        <span class="var">classificacao</span> = <span class="str">"Obesidade ❌"</span>
+
+    <span class="var">alerta</span> = <span class="str">"Risco cardiovascular elevado 🚨"</span> <span class="kw">if</span> (<span class="prm">verificar_risco</span> <span class="kw">and</span> <span class="prm">imc</span> >= <span class="num">30.0</span>) <span class="kw">else</span> <span class="str">""</span>
+    <span class="kw">return</span> <span class="var">classificacao</span>, <span class="var">alerta</span></code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-footer">
+        <div class="concept-tags">
+          <span class="concept-tag">parâmetro padrão</span>
+          <span class="concept-tag">retorno múltiplo</span>
+          <span class="concept-tag">condicional</span>
+        </div>
+        <span class="pontos">2 pts</span>
+      </div>
+    </div>
+
+    <!-- ══════ EX 03 ══════ -->
+    <div id="ex3" class="ex-card">
+      <div class="ex-header">
+        <div class="ex-header-left">
+          <div class="ex-num">03</div>
+          <div class="ex-title-block">
+            <h3>Emitir a ficha de triagem do paciente</h3>
+            <div class="ex-subtitle">composição de funções · formatação de saída</div>
+          </div>
+        </div>
+        <span class="diff-badge diff-medium">🟡 Intermediário</span>
+      </div>
+
+      <div class="ex-body">
+        <p>A recepção da clínica precisa imprimir uma <strong>ficha de triagem</strong> para cada paciente. Você vai criar a função <code class="inline">emitir_ficha()</code>, que <strong>reutiliza as funções dos exercícios 01 e 02</strong> para compor o documento completo.</p>
+
+        <div class="ex-label">O que a função deve fazer</div>
+        <ul class="req-list">
+          <li>Receber: <code class="inline">nome</code>, <code class="inline">idade</code>, <code class="inline">peso</code> e <code class="inline">altura</code></li>
+          <li>Chamar <code class="inline">calcular_imc()</code> para obter o IMC</li>
+          <li>Chamar <code class="inline">classificar_imc()</code> para obter a classificação e o alerta</li>
+          <li>Imprimir a ficha formatada conforme a saída esperada abaixo</li>
+          <li>Se houver alerta, ele deve aparecer ao lado da classificação; se não houver, a linha deve mostrar apenas a classificação</li>
+          <li>Não precisa retornar nada — apenas imprimir</li>
+        </ul>
+
+        <div class="ex-label">Exemplo de uso esperado</div>
+        <div class="code-wrap">
+          <div class="code-bar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-title">chamada da função</span>
+            <span class="code-lang">python</span>
+          </div>
+          <pre><code><span class="fn">emitir_ficha</span>(<span class="str">"Maria Souza"</span>, <span class="num">34</span>, <span class="num">70</span>, <span class="num">1.75</span>)
+<span class="bi">print</span>()
+<span class="fn">emitir_ficha</span>(<span class="str">"João Pedro"</span>, <span class="num">45</span>, <span class="num">95</span>, <span class="num">1.70</span>)</code></pre>
+        </div>
+
+        <div class="ex-label">Saída esperada</div>
+        <div class="output-wrap">
+          <div class="output-bar">saída no terminal</div>
+          <div class="output-pre"><span class="out-blue">====================================</span>
+<span class="out-blue">   🏥 CLÍNICA VIDA+ — TRIAGEM</span>
+<span class="out-blue">====================================</span>
+<span class="out-muted">Paciente : Maria Souza</span>
+<span class="out-muted">Idade    : 34 anos</span>
+<span class="out-muted">Peso/Alt : 70 kg / 1.75 m</span>
+<span class="out-muted">------------------------------------</span>
+<span class="out-muted">IMC      : 22.9</span>
+<span class="out-green">Classificação: Peso normal ✅</span>
+<span class="out-blue">====================================</span>
+
+<span class="out-blue">====================================</span>
+<span class="out-blue">   🏥 CLÍNICA VIDA+ — TRIAGEM</span>
+<span class="out-blue">====================================</span>
+<span class="out-muted">Paciente : João Pedro</span>
+<span class="out-muted">Idade    : 45 anos</span>
+<span class="out-muted">Peso/Alt : 95 kg / 1.70 m</span>
+<span class="out-muted">------------------------------------</span>
+<span class="out-muted">IMC      : 32.9</span>
+<span class="out-red">Classificação: Obesidade ❌  Risco cardiovascular elevado 🚨</span>
+<span class="out-blue">====================================</span></div>
+        </div>
+
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div><strong>Composição de funções</strong><code class="inline">emitir_ficha()</code> não recalcula nada — ela orquestra as funções que você já criou. Se a fórmula do IMC mudar, basta alterar <code class="inline">calcular_imc()</code> e todas as fichas são atualizadas automaticamente.</div>
+        </div>
+
+        <div class="ex-label" style="margin-top:20px;">Gabarito</div>
+        <div class="gabarito-toggle" onclick="toggleGabarito(this)">
+          <span class="toggle-icon">▶</span> Ver solução
+        </div>
+        <div class="gabarito-body">
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <span class="code-title">solução — exercício 03</span>
+              <span class="code-lang">python</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">emitir_ficha</span>(
+    <span class="prm">nome</span>: <span class="bi">str</span>,
+    <span class="prm">idade</span>: <span class="bi">int</span>,
+    <span class="prm">peso</span>: <span class="bi">float</span>,
+    <span class="prm">altura</span>: <span class="bi">float</span>
+) -> <span class="kw">None</span>:
+    <span class="str">"""Imprime a ficha de triagem formatada do paciente."""</span>
+    <span class="var">imc</span>            = <span class="fn">calcular_imc</span>(<span class="prm">peso</span>, <span class="prm">altura</span>)
+    <span class="var">classif</span>, <span class="var">alerta</span> = <span class="fn">classificar_imc</span>(<span class="var">imc</span>)
+
+    <span class="var">linha</span> = <span class="str">"=" * 36</span>
+    <span class="var">sep</span>   = <span class="str">"-" * 36</span>
+    <span class="bi">print</span>(<span class="var">linha</span>)
+    <span class="bi">print</span>(<span class="str">"   🏥 CLÍNICA VIDA+ — TRIAGEM"</span>)
+    <span class="bi">print</span>(<span class="var">linha</span>)
+    <span class="bi">print</span>(<span class="str">f"Paciente : {<span class="prm">nome</span>}"</span>)
+    <span class="bi">print</span>(<span class="str">f"Idade    : {<span class="prm">idade</span>} anos"</span>)
+    <span class="bi">print</span>(<span class="str">f"Peso/Alt : {<span class="prm">peso</span>} kg / {<span class="prm">altura</span>} m"</span>)
+    <span class="bi">print</span>(<span class="var">sep</span>)
+    <span class="bi">print</span>(<span class="str">f"IMC      : {<span class="var">imc</span>}"</span>)
+    <span class="kw">if</span> <span class="var">alerta</span>:
+        <span class="bi">print</span>(<span class="str">f"Classificação: {<span class="var">classif</span>}  {<span class="var">alerta</span>}"</span>)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="str">f"Classificação: {<span class="var">classif</span>}"</span>)
+    <span class="bi">print</span>(<span class="var">linha</span>)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-footer">
+        <div class="concept-tags">
+          <span class="concept-tag">composição</span>
+          <span class="concept-tag">reutilização</span>
+          <span class="concept-tag">f-string</span>
+          <span class="concept-tag">return None</span>
+        </div>
+        <span class="pontos">2 pts</span>
+      </div>
+    </div>
+
+    <!-- ══════ EX 04 ══════ -->
+    <div id="ex4" class="ex-card">
+      <div class="ex-header">
+        <div class="ex-header-left">
+          <div class="ex-num">04</div>
+          <div class="ex-title-block">
+            <h3>Relatório diário da clínica</h3>
+            <div class="ex-subtitle">listas como parâmetro · escopo · cálculos agregados</div>
+          </div>
+        </div>
+        <span class="diff-badge diff-medium">🟡 Intermediário</span>
+      </div>
+
+      <div class="ex-body">
+        <p>Ao final do turno, o Dr. Marcos quer um panorama dos atendimentos: quantos pacientes foram triados, qual o IMC médio do dia, e quantos pacientes caem em cada faixa de classificação. Crie as funções necessárias para gerar esse relatório.</p>
+
+        <div class="ex-label">O que criar</div>
+        <ul class="req-list">
+          <li>Função <code class="inline">calcular_imc_medio(lista_imcs)</code> — recebe uma lista de valores de IMC e retorna a média geral, arredondada para 1 casa; retorna <code class="inline">0.0</code> se a lista for vazia</li>
+          <li>Função <code class="inline">contar_classificacoes(lista_imcs)</code> — retorna uma tupla <code class="inline">(abaixo, normal, sobrepeso, obesidade)</code> contando quantos pacientes há em cada faixa</li>
+          <li>Função <code class="inline">relatorio_diario_clinica(nome_unidade, lista_imcs)</code> — chama as duas anteriores e imprime o relatório completo conforme a saída esperada</li>
+        </ul>
+
+        <div class="ex-label">Exemplo de uso esperado</div>
+        <div class="code-wrap">
+          <div class="code-bar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-title">chamada da função</span>
+            <span class="code-lang">python</span>
+          </div>
+          <pre><code><span class="var">imcs_manha</span> = [<span class="num">22.9</span>, <span class="num">32.9</span>, <span class="num">19.5</span>, <span class="num">27.3</span>, <span class="num">24.0</span>, <span class="num">35.1</span>, <span class="num">21.0</span>]
+<span class="fn">relatorio_diario_clinica</span>(<span class="str">"Manhã"</span>, <span class="var">imcs_manha</span>)
+
+<span class="bi">print</span>()
+
+<span class="fn">relatorio_diario_clinica</span>(<span class="str">"Tarde"</span>, [])</code></pre>
+        </div>
+
+        <div class="ex-label">Saída esperada</div>
+        <div class="output-wrap">
+          <div class="output-bar">saída no terminal</div>
+          <div class="output-pre"><span class="out-blue">╔══════════════════════════════════╗</span>
+<span class="out-blue">║  📊 RELATÓRIO — TURNO: MANHÃ     ║</span>
+<span class="out-blue">╠══════════════════════════════════╣</span>
+<span class="out-muted">  Pacientes triados : 7</span>
+<span class="out-muted">  IMC médio         : 26.1</span>
+<span class="out-muted">  ─────────────────────────────── </span>
+<span class="out-blue">  Abaixo do peso    : 0</span>
+<span class="out-green">  Peso normal       : 4</span>
+<span class="out-yellow">  Sobrepeso         : 1</span>
+<span class="out-red">  Obesidade         : 2</span>
+<span class="out-blue">╚══════════════════════════════════╝</span>
+
+<span class="out-blue">╔══════════════════════════════════╗</span>
+<span class="out-blue">║  📊 RELATÓRIO — TURNO: TARDE     ║</span>
+<span class="out-blue">╠══════════════════════════════════╣</span>
+<span class="out-yellow">  Nenhum paciente triado ainda.</span>
+<span class="out-blue">╚══════════════════════════════════╝</span></div>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div><strong>Atenção ao escopo</strong>Cada função deve ser independente — não use variáveis globais. <code class="inline">relatorio_diario_clinica()</code> deve obter os valores chamando as outras funções, não recalculando diretamente.</div>
+        </div>
+
+        <div class="ex-label" style="margin-top:20px;">Gabarito</div>
+        <div class="gabarito-toggle" onclick="toggleGabarito(this)">
+          <span class="toggle-icon">▶</span> Ver solução
+        </div>
+        <div class="gabarito-body">
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <span class="code-title">solução — exercício 04</span>
+              <span class="code-lang">python</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">calcular_imc_medio</span>(<span class="prm">lista_imcs</span>: <span class="bi">list</span>) -> <span class="bi">float</span>:
+    <span class="str">"""Retorna a média de IMC. Retorna 0.0 se a lista for vazia."""</span>
+    <span class="kw">if</span> <span class="kw">not</span> <span class="prm">lista_imcs</span>:
+        <span class="kw">return</span> <span class="num">0.0</span>
+    <span class="kw">return</span> <span class="bi">round</span>(<span class="bi">sum</span>(<span class="prm">lista_imcs</span>) / <span class="bi">len</span>(<span class="prm">lista_imcs</span>), <span class="num">1</span>)
+
+<span class="kw">def</span> <span class="fn">contar_classificacoes</span>(<span class="prm">lista_imcs</span>: <span class="bi">list</span>) -> <span class="bi">tuple</span>:
+    <span class="str">"""Retorna (abaixo, normal, sobrepeso, obesidade)."""</span>
+    <span class="var">abaixo</span> = <span class="var">normal</span> = <span class="var">sobrepeso</span> = <span class="var">obesidade</span> = <span class="num">0</span>
+    <span class="kw">for</span> <span class="var">imc</span> <span class="kw">in</span> <span class="prm">lista_imcs</span>:
+        <span class="var">classif</span>, <span class="var">_</span> = <span class="fn">classificar_imc</span>(<span class="var">imc</span>, <span class="kw">False</span>)
+        <span class="kw">if</span> <span class="var">classif</span> == <span class="str">"Abaixo do peso"</span>:
+            <span class="var">abaixo</span> += <span class="num">1</span>
+        <span class="kw">elif</span> <span class="str">"normal"</span> <span class="kw">in</span> <span class="var">classif</span>:
+            <span class="var">normal</span> += <span class="num">1</span>
+        <span class="kw">elif</span> <span class="str">"Sobrepeso"</span> <span class="kw">in</span> <span class="var">classif</span>:
+            <span class="var">sobrepeso</span> += <span class="num">1</span>
+        <span class="kw">else</span>:
+            <span class="var">obesidade</span> += <span class="num">1</span>
+    <span class="kw">return</span> <span class="var">abaixo</span>, <span class="var">normal</span>, <span class="var">sobrepeso</span>, <span class="var">obesidade</span>
+
+<span class="kw">def</span> <span class="fn">relatorio_diario_clinica</span>(<span class="prm">nome_unidade</span>: <span class="bi">str</span>, <span class="prm">lista_imcs</span>: <span class="bi">list</span>) -> <span class="kw">None</span>:
+    <span class="str">"""Imprime o relatório consolidado de triagens do turno."""</span>
+    <span class="var">linha</span> = <span class="str">"╔" + "═" * 34 + "╗"</span>
+    <span class="var">meio</span>  = <span class="str">"╠" + "═" * 34 + "╣"</span>
+    <span class="var">fim</span>   = <span class="str">"╚" + "═" * 34 + "╝"</span>
+    <span class="bi">print</span>(<span class="var">linha</span>)
+    <span class="bi">print</span>(<span class="str">f"║  📊 RELATÓRIO — TURNO: {<span class="prm">nome_unidade</span>.<span class="bi">upper</span>()}     ║"</span>)
+    <span class="bi">print</span>(<span class="var">meio</span>)
+    <span class="kw">if</span> <span class="kw">not</span> <span class="prm">lista_imcs</span>:
+        <span class="bi">print</span>(<span class="str">"  Nenhum paciente triado ainda."</span>)
+    <span class="kw">else</span>:
+        <span class="var">media</span> = <span class="fn">calcular_imc_medio</span>(<span class="prm">lista_imcs</span>)
+        <span class="var">abaixo</span>, <span class="var">normal</span>, <span class="var">sobrepeso</span>, <span class="var">obesidade</span> = <span class="fn">contar_classificacoes</span>(<span class="prm">lista_imcs</span>)
+        <span class="bi">print</span>(<span class="str">f"  Pacientes triados : {<span class="bi">len</span>(<span class="prm">lista_imcs</span>)}"</span>)
+        <span class="bi">print</span>(<span class="str">f"  IMC médio         : {<span class="var">media</span>}"</span>)
+        <span class="bi">print</span>(<span class="str">"  ─────────────────────────────── "</span>)
+        <span class="bi">print</span>(<span class="str">f"  Abaixo do peso    : {<span class="var">abaixo</span>}"</span>)
+        <span class="bi">print</span>(<span class="str">f"  Peso normal       : {<span class="var">normal</span>}"</span>)
+        <span class="bi">print</span>(<span class="str">f"  Sobrepeso         : {<span class="var">sobrepeso</span>}"</span>)
+        <span class="bi">print</span>(<span class="str">f"  Obesidade         : {<span class="var">obesidade</span>}"</span>)
+    <span class="bi">print</span>(<span class="var">fim</span>)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-footer">
+        <div class="concept-tags">
+          <span class="concept-tag">lista como parâmetro</span>
+          <span class="concept-tag">escopo local</span>
+          <span class="concept-tag">composição</span>
+          <span class="concept-tag">built-ins</span>
+        </div>
+        <span class="pontos">2 pts</span>
+      </div>
+    </div>
+
+    <!-- ══════ EX 05 ══════ -->
+    <div id="ex5" class="ex-card">
+      <div class="ex-header">
+        <div class="ex-header-left">
+          <div class="ex-num">05</div>
+          <div class="ex-title-block">
+            <h3>Sistema de priorização de atendimento</h3>
+            <div class="ex-subtitle">integração · boas práticas · mini-sistema</div>
+          </div>
+        </div>
+        <span class="diff-badge diff-hard">🔴 Desafiador</span>
+      </div>
+
+      <div class="ex-body">
+        <p>A triagem da Clínica Vida+ também mede a <strong>pressão arterial</strong> do paciente. Com base no IMC e na pressão, o sistema deve definir automaticamente a <strong>prioridade de atendimento</strong>. Neste exercício você vai integrar tudo o que foi desenvolvido nos exercícios anteriores.</p>
+
+        <div class="ex-label">Tabela de classificação de pressão</div>
+        <div style="overflow-x:auto; margin-bottom:20px;">
+          <table>
+            <thead>
+              <tr><th>Sistólica / Diastólica</th><th>Classificação</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>≥ 180 ou ≥ 120</td><td>Crise Hipertensiva 🚨</td></tr>
+              <tr><td>≥ 140 ou ≥ 90</td><td>Hipertensão ⚠️</td></tr>
+              <tr><td>≥ 130 ou ≥ 80</td><td>Pressão Elevada</td></tr>
+              <tr><td>Abaixo desses valores</td><td>Normal ✅</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="ex-label">O que criar</div>
+        <ul class="req-list">
+          <li>Função <code class="inline">verificar_pressao(sistolica, diastolica)</code> — retorna a classificação da pressão conforme a tabela (verifique as condições <strong>na ordem</strong>, da mais grave para a mais leve)</li>
+          <li>Função <code class="inline">definir_prioridade(classif_imc, classif_pressao)</code> — retorna <code class="inline">"URGENTE 🚨"</code> se houver crise hipertensiva; <code class="inline">"Prioritário ⚠️"</code> se houver obesidade ou hipertensão; caso contrário, <code class="inline">"Normal"</code></li>
+          <li>Função <code class="inline">emitir_ficha_completa(...)</code> — recebe <code class="inline">nome</code>, <code class="inline">idade</code>, <code class="inline">peso</code>, <code class="inline">altura</code>, <code class="inline">sistolica</code> e <code class="inline">diastolica</code>, e imprime a ficha completa com IMC, pressão e prioridade</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div><strong>Reutilize tudo</strong><code class="inline">emitir_ficha_completa()</code> deve chamar <code class="inline">calcular_imc()</code>, <code class="inline">classificar_imc()</code>, <code class="inline">verificar_pressao()</code> e <code class="inline">definir_prioridade()</code>. Não recalcule nada do zero.</div>
+        </div>
+
+        <div class="ex-label">Exemplo de uso esperado</div>
+        <div class="code-wrap">
+          <div class="code-bar">
+            <div class="code-dots"><span></span><span></span><span></span></div>
+            <span class="code-title">chamada da função</span>
+            <span class="code-lang">python</span>
+          </div>
+          <pre><code><span class="cm"># Paciente com obesidade e pressão em crise</span>
+<span class="fn">emitir_ficha_completa</span>(
+    <span class="prm">nome</span>=<span class="str">"Carlos Andrade"</span>,
+    <span class="prm">idade</span>=<span class="num">58</span>,
+    <span class="prm">peso</span>=<span class="num">95</span>,
+    <span class="prm">altura</span>=<span class="num">1.70</span>,
+    <span class="prm">sistolica</span>=<span class="num">185</span>,
+    <span class="prm">diastolica</span>=<span class="num">110</span>
+)
+<span class="bi">print</span>()
+<span class="cm"># Paciente com indicadores normais</span>
+<span class="fn">emitir_ficha_completa</span>(
+    <span class="prm">nome</span>=<span class="str">"Beatriz Lima"</span>,
+    <span class="prm">idade</span>=<span class="num">29</span>,
+    <span class="prm">peso</span>=<span class="num">60</span>,
+    <span class="prm">altura</span>=<span class="num">1.65</span>,
+    <span class="prm">sistolica</span>=<span class="num">118</span>,
+    <span class="prm">diastolica</span>=<span class="num">76</span>
+)</code></pre>
+        </div>
+
+        <div class="ex-label">Saída esperada</div>
+        <div class="output-wrap">
+          <div class="output-bar">saída no terminal</div>
+          <div class="output-pre"><span class="out-blue">====================================</span>
+<span class="out-blue">  🏥 CLÍNICA VIDA+ — FICHA COMPLETA</span>
+<span class="out-blue">====================================</span>
+<span class="out-muted">Paciente   : Carlos Andrade</span>
+<span class="out-muted">Idade      : 58 anos</span>
+<span class="out-muted">IMC        : 32.9 — Obesidade ❌</span>
+<span class="out-red">Alerta IMC : Risco cardiovascular elevado 🚨</span>
+<span class="out-muted">Pressão    : 185/110 mmHg — Crise Hipertensiva 🚨</span>
+<span class="out-muted">------------------------------------</span>
+<span class="out-red">PRIORIDADE : URGENTE 🚨</span>
+<span class="out-blue">====================================</span>
+
+<span class="out-blue">====================================</span>
+<span class="out-blue">  🏥 CLÍNICA VIDA+ — FICHA COMPLETA</span>
+<span class="out-blue">====================================</span>
+<span class="out-muted">Paciente   : Beatriz Lima</span>
+<span class="out-muted">Idade      : 29 anos</span>
+<span class="out-muted">IMC        : 22.0 — Peso normal ✅</span>
+<span class="out-muted">Pressão    : 118/76 mmHg — Normal ✅</span>
+<span class="out-muted">------------------------------------</span>
+<span class="out-green">PRIORIDADE : Normal</span>
+<span class="out-blue">====================================</span></div>
+        </div>
+
+        <div class="ex-label" style="margin-top:20px;">Gabarito</div>
+        <div class="gabarito-toggle" onclick="toggleGabarito(this)">
+          <span class="toggle-icon">▶</span> Ver solução
+        </div>
+        <div class="gabarito-body">
+          <div class="code-wrap">
+            <div class="code-bar">
+              <div class="code-dots"><span></span><span></span><span></span></div>
+              <span class="code-title">solução — exercício 05</span>
+              <span class="code-lang">python</span>
+            </div>
+            <pre><code><span class="kw">def</span> <span class="fn">verificar_pressao</span>(<span class="prm">sistolica</span>: <span class="bi">float</span>, <span class="prm">diastolica</span>: <span class="bi">float</span>) -> <span class="bi">str</span>:
+    <span class="str">"""Classifica a pressão arterial do paciente."""</span>
+    <span class="kw">if</span> <span class="prm">sistolica</span> >= <span class="num">180</span> <span class="kw">or</span> <span class="prm">diastolica</span> >= <span class="num">120</span>:
+        <span class="kw">return</span> <span class="str">"Crise Hipertensiva 🚨"</span>
+    <span class="kw">elif</span> <span class="prm">sistolica</span> >= <span class="num">140</span> <span class="kw">or</span> <span class="prm">diastolica</span> >= <span class="num">90</span>:
+        <span class="kw">return</span> <span class="str">"Hipertensão ⚠️"</span>
+    <span class="kw">elif</span> <span class="prm">sistolica</span> >= <span class="num">130</span> <span class="kw">or</span> <span class="prm">diastolica</span> >= <span class="num">80</span>:
+        <span class="kw">return</span> <span class="str">"Pressão Elevada"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"Normal ✅"</span>
+
+<span class="kw">def</span> <span class="fn">definir_prioridade</span>(<span class="prm">classif_imc</span>: <span class="bi">str</span>, <span class="prm">classif_pressao</span>: <span class="bi">str</span>) -> <span class="bi">str</span>:
+    <span class="str">"""Define a prioridade de atendimento do paciente."""</span>
+    <span class="kw">if</span> <span class="str">"Crise"</span> <span class="kw">in</span> <span class="prm">classif_pressao</span>:
+        <span class="kw">return</span> <span class="str">"URGENTE 🚨"</span>
+    <span class="kw">elif</span> <span class="str">"Obesidade"</span> <span class="kw">in</span> <span class="prm">classif_imc</span> <span class="kw">or</span> <span class="str">"Hipertensão"</span> <span class="kw">in</span> <span class="prm">classif_pressao</span>:
+        <span class="kw">return</span> <span class="str">"Prioritário ⚠️"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"Normal"</span>
+
+<span class="kw">def</span> <span class="fn">emitir_ficha_completa</span>(
+    <span class="prm">nome</span>: <span class="bi">str</span>,
+    <span class="prm">idade</span>: <span class="bi">int</span>,
+    <span class="prm">peso</span>: <span class="bi">float</span>,
+    <span class="prm">altura</span>: <span class="bi">float</span>,
+    <span class="prm">sistolica</span>: <span class="bi">float</span>,
+    <span class="prm">diastolica</span>: <span class="bi">float</span>
+) -> <span class="kw">None</span>:
+    <span class="str">"""Emite a ficha completa de triagem com prioridade de atendimento."""</span>
+    <span class="var">imc</span>             = <span class="fn">calcular_imc</span>(<span class="prm">peso</span>, <span class="prm">altura</span>)
+    <span class="var">classif_imc</span>, <span class="var">alerta</span> = <span class="fn">classificar_imc</span>(<span class="var">imc</span>)
+    <span class="var">classif_pressao</span> = <span class="fn">verificar_pressao</span>(<span class="prm">sistolica</span>, <span class="prm">diastolica</span>)
+    <span class="var">prioridade</span>      = <span class="fn">definir_prioridade</span>(<span class="var">classif_imc</span>, <span class="var">classif_pressao</span>)
+
+    <span class="var">linha</span> = <span class="str">"=" * 36</span>
+    <span class="var">sep</span>   = <span class="str">"-" * 36</span>
+    <span class="bi">print</span>(<span class="var">linha</span>)
+    <span class="bi">print</span>(<span class="str">"  🏥 CLÍNICA VIDA+ — FICHA COMPLETA"</span>)
+    <span class="bi">print</span>(<span class="var">linha</span>)
+    <span class="bi">print</span>(<span class="str">f"Paciente   : {<span class="prm">nome</span>}"</span>)
+    <span class="bi">print</span>(<span class="str">f"Idade      : {<span class="prm">idade</span>} anos"</span>)
+    <span class="bi">print</span>(<span class="str">f"IMC        : {<span class="var">imc</span>} — {<span class="var">classif_imc</span>}"</span>)
+    <span class="kw">if</span> <span class="var">alerta</span>:
+        <span class="bi">print</span>(<span class="str">f"Alerta IMC : {<span class="var">alerta</span>}"</span>)
+    <span class="bi">print</span>(<span class="str">f"Pressão    : {<span class="prm">sistolica</span>:.0f}/{<span class="prm">diastolica</span>:.0f} mmHg — {<span class="var">classif_pressao</span>}"</span>)
+    <span class="bi">print</span>(<span class="var">sep</span>)
+    <span class="bi">print</span>(<span class="str">f"PRIORIDADE : {<span class="var">prioridade</span>}"</span>)
+    <span class="bi">print</span>(<span class="var">linha</span>)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ex-footer">
+        <div class="concept-tags">
+          <span class="concept-tag">integração</span>
+          <span class="concept-tag">boas práticas</span>
+          <span class="concept-tag">composição total</span>
+          <span class="concept-tag">args nomeados</span>
+        </div>
+        <span class="pontos">2 pts</span>
+      </div>
+    </div>
+
+    <!-- NOTA FINAL -->
+    <div class="story-box" style="margin-top:8px;">
+      <div class="story-label">🏁 Parabéns!</div>
+      <h3>O sistema de triagem da Clínica Vida+ está funcionando!</h3>
+      <p>Se você completou todos os exercícios, escreveu <strong>7 funções</strong> que formam um mini-sistema clínico real: cálculo de IMC, classificação de risco, emissão de fichas, relatório de turno e priorização de atendimento — cada uma com uma responsabilidade clara, bem nomeada e sem variáveis globais.</p>
+      <p>Isso é exatamente como sistemas profissionais são construídos: funções pequenas, testáveis e compostas para resolver problemas maiores. 🚀</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress').style.width = p + '%';
+});
+
+const navLinks = document.querySelectorAll('.nav-item[href]');
+const cards    = document.querySelectorAll('[id]');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+cards.forEach(s => obs.observe(s));
+
+function toggleGabarito(btn) {
+  btn.classList.toggle('open');
+  const body = btn.nextElementSibling;
+  body.classList.toggle('show');
+  btn.querySelector('.toggle-icon').textContent = body.classList.contains('show') ? '▼' : '▶';
+}
+
+/* ── DARK MODE TOGGLE ── */
+(function() {
+  const KEY  = 'theme-pref';
+  const root = document.documentElement;
+
+  function applyTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    document.querySelectorAll('.theme-toggle').forEach(btn => {
+      btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+      btn.setAttribute('title', theme === 'dark' ? 'Modo claro' : 'Modo escuro');
+    });
+    localStorage.setItem(KEY, theme);
+  }
+
+  function toggle() {
+    applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  }
+
+  const saved       = localStorage.getItem(KEY);
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.addEventListener('click', toggle);
+  });
+})();
+</script>
+</body>
+</html>

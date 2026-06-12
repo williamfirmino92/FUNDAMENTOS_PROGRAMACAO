@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fundamentos da Programação — ADS · Senac Rio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     :root {
-      --green:        #16a34a;
-      --green-deep:   #15803d;
-      --green-mid:    #22c55e;
-      --green-glow:   #4ade80;
-      --green-soft:   #f0fdf4;
-      --green-muted:  #86efac;
+      --green: #16a34a;
+      --green-deep: #15803d;
+      --green-mid: #22c55e;
+      --green-glow: #4ade80;
+      --green-soft: #f0fdf4;
+      --green-muted: #86efac;
       --green-border: #bbf7d0;
-      --bg:           #ffffff;
-      --surface:      #ffffff;
-      --surface2:     #f8fafc;
-      --text:         #0f172a;
-      --text2:        #166534;
-      --muted:        #64748b;
-      --border:       #e2e8f0;
-      --radius:       12px;
-      --shadow:       0 2px 16px rgba(22,163,74,.07);
-      --shadow-lg:    0 8px 40px rgba(22,163,74,.13);
-      --max-w:        960px;
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --surface2: #f8fafc;
+      --text: #0f172a;
+      --text2: #166534;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 2px 16px rgba(22, 163, 74, .07);
+      --shadow-lg: 0 8px 40px rgba(22, 163, 74, .13);
+      --max-w: 960px;
     }
 
     body {
@@ -46,7 +58,7 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      background: rgba(255,255,255,.93);
+      background: rgba(255, 255, 255, .93);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -113,7 +125,7 @@
       position: absolute;
       inset: 0;
       background-image:
-        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(74,222,128,.18) 0%, transparent 65%),
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(74, 222, 128, .18) 0%, transparent 65%),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
     }
@@ -121,10 +133,12 @@
     .hero::after {
       content: '';
       position: absolute;
-      top: -80px; right: -80px;
-      width: 360px; height: 360px;
+      top: -80px;
+      right: -80px;
+      width: 360px;
+      height: 360px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.06);
+      border: 1px solid rgba(255, 255, 255, .06);
       pointer-events: none;
     }
 
@@ -150,7 +164,8 @@
     .hero-eyebrow::before {
       content: '';
       display: inline-block;
-      width: 20px; height: 1px;
+      width: 20px;
+      height: 1px;
       background: var(--green-glow);
     }
 
@@ -172,7 +187,7 @@
 
     .hero-desc {
       font-size: 16px;
-      color: rgba(255,255,255,.55);
+      color: rgba(255, 255, 255, .55);
       max-width: 520px;
       line-height: 1.7;
       margin-bottom: 36px;
@@ -188,12 +203,12 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 8px;
       padding: 7px 14px;
       font-size: 13px;
-      color: rgba(255,255,255,.7);
+      color: rgba(255, 255, 255, .7);
     }
 
     .meta-chip strong {
@@ -202,7 +217,8 @@
     }
 
     .meta-chip .dot {
-      width: 6px; height: 6px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--green-glow);
       flex-shrink: 0;
@@ -272,7 +288,8 @@
     }
 
     .professor-avatar {
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--green-mid), var(--green));
       display: flex;
@@ -315,7 +332,8 @@
 
     .ementa-list li::before {
       content: '';
-      width: 5px; height: 5px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: var(--green);
       flex-shrink: 0;
@@ -341,10 +359,13 @@
     }
 
     .video-caption .yt-icon {
-      width: 32px; height: 32px;
+      width: 32px;
+      height: 32px;
       background: #FF0000;
       border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
       font-size: 14px;
       color: #fff;
@@ -384,7 +405,7 @@
       font-weight: 500;
       letter-spacing: .08em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.5);
+      color: rgba(255, 255, 255, .5);
     }
 
     .cronograma-row {
@@ -396,8 +417,13 @@
       transition: background .15s;
     }
 
-    .cronograma-row:last-child { border-bottom: none; }
-    .cronograma-row:hover { background: var(--green-soft); }
+    .cronograma-row:last-child {
+      border-bottom: none;
+    }
+
+    .cronograma-row:hover {
+      background: var(--green-soft);
+    }
 
     .crono-aula {
       font-family: 'DM Mono', monospace;
@@ -428,13 +454,33 @@
       width: fit-content;
     }
 
-    .status-done    { background: #dcfce7; color: #15803d; }
-    .status-current { background: var(--green-soft); color: var(--green); border: 1px solid var(--green-border); }
-    .status-next    { background: #f1f5f9; color: #64748b; }
+    .status-done {
+      background: #dcfce7;
+      color: #15803d;
+    }
 
-    .status-done::before    { content: '✓'; }
-    .status-current::before { content: '▶'; }
-    .status-next::before    { content: '○'; }
+    .status-current {
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    .status-next {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+
+    .status-done::before {
+      content: '✓';
+    }
+
+    .status-current::before {
+      content: '▶';
+    }
+
+    .status-next::before {
+      content: '○';
+    }
 
     /* ─── MATERIAIS GRID ─────────────────── */
     .materiais-grid {
@@ -462,7 +508,9 @@
     .apostila-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--green), var(--green-glow));
       transform: scaleX(0);
@@ -476,7 +524,9 @@
       border-color: var(--green-border);
     }
 
-    .apostila-card:hover::before { transform: scaleX(1); }
+    .apostila-card:hover::before {
+      transform: scaleX(1);
+    }
 
     .card-mod {
       font-family: 'DM Mono', monospace;
@@ -562,7 +612,9 @@
       opacity: .7;
     }
 
-    .apostila-card.soon::before { display: none; }
+    .apostila-card.soon::before {
+      display: none;
+    }
 
     .soon-badge {
       display: inline-block;
@@ -597,7 +649,9 @@
       box-shadow: none;
     }
 
-    .placeholder-inner { text-align: center; }
+    .placeholder-inner {
+      text-align: center;
+    }
 
     .placeholder-inner .plus {
       font-size: 28px;
@@ -637,7 +691,8 @@
     }
 
     .recurso-icon {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       border-radius: 8px;
       background: var(--green-soft);
       border: 1px solid var(--green-border);
@@ -673,46 +728,82 @@
       color: var(--muted);
     }
 
-    footer strong { color: var(--text2); }
+    footer strong {
+      color: var(--text2);
+    }
 
     /* ─── MOBILE ─────────────────────────── */
     @media (max-width: 760px) {
-      .topbar { padding: 0 20px; }
-      .topbar-nav { display: none; }
-      .hero { padding: 52px 20px 48px; }
-      .container { padding: 0 20px 60px; }
-      .info-grid { grid-template-columns: 1fr; }
+      .topbar {
+        padding: 0 20px;
+      }
+
+      .topbar-nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 52px 20px 48px;
+      }
+
+      .container {
+        padding: 0 20px 60px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
       .cronograma-header,
-      .cronograma-row { grid-template-columns: 60px 1fr 1fr; }
-      .crono-data { display: none; }
-      .recursos-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+      .cronograma-row {
+        grid-template-columns: 60px 1fr 1fr;
+      }
+
+      .crono-data {
+        display: none;
+      }
+
+      .recursos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        padding: 20px;
+      }
     }
 
     /* ─── DARK MODE ──────────────────────── */
     body.dark {
-      --bg:           #0d1f14;
-      --surface:      #112018;
-      --surface2:     #152a1e;
-      --text:         #f0fdf4;
-      --text2:        #86efac;
-      --muted:        #94a3b8;
-      --border:       #1e3d2a;
-      --shadow:       0 2px 16px rgba(0,0,0,.35);
-      --shadow-lg:    0 8px 40px rgba(0,0,0,.45);
+      --bg: #0d1f14;
+      --surface: #112018;
+      --surface2: #152a1e;
+      --text: #f0fdf4;
+      --text2: #86efac;
+      --muted: #94a3b8;
+      --border: #1e3d2a;
+      --shadow: 0 2px 16px rgba(0, 0, 0, .35);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, .45);
     }
+
     body.dark .topbar {
-      background: rgba(13,31,20,.93);
+      background: rgba(13, 31, 20, .93);
     }
+
     body.dark .cronograma-row:hover {
       background: #152a1e;
     }
+
     body.dark .apostila-card.soon {
       background: #112018;
     }
+
     body.dark .apostila-card.placeholder {
       border-color: #1e3d2a;
     }
+
     body.dark .info-grid span[style] {
       background: #152a1e !important;
       border-color: #1e3d2a !important;
@@ -720,7 +811,8 @@
 
     /* ─── TOGGLE BUTTON ─────────────────── */
     .theme-toggle {
-      width: 34px; height: 34px;
+      width: 34px;
+      height: 34px;
       border-radius: 8px;
       border: 1px solid var(--border);
       background: var(--surface2);
@@ -733,397 +825,437 @@
       flex-shrink: 0;
       line-height: 1;
     }
+
     .theme-toggle:hover {
       background: var(--green-soft);
       border-color: var(--green-border);
     }
   </style>
-  <script>if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark-pre');</script>
-  <style>.dark-pre body,.dark-pre{background:#0d1f14!important}</style>
+  <script>if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark-pre');</script>
+  <style>
+    .dark-pre body,
+    .dark-pre {
+      background: #0d1f14 !important
+    }
+  </style>
 </head>
+
 <body>
-<script>
-  if(localStorage.getItem('theme')==='dark'){
-    document.body.classList.add('dark');
-    document.documentElement.classList.remove('dark-pre');
-  }
-</script>
+  <script>
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      document.documentElement.classList.remove('dark-pre');
+    }
+  </script>
 
-<!-- ══════════ TOPBAR ══════════ -->
-<header class="topbar">
-  <a class="topbar-brand" href="#">
-    <span class="badge">ADS · Senac Rio</span>
-    <span>Fundamentos da Programação</span>
-  </a>
-  <nav class="topbar-nav">
-    <a href="#sobre">Sobre</a>
-    <a href="#materiais">Materiais</a>
-    <a href="#cronograma">Cronograma</a>
-    <a href="#recursos">Recursos</a>
-  </nav>
-  <button class="theme-toggle" id="themeToggle" title="Alternar modo claro/escuro">🌙</button>
-</header>
+  <!-- ══════════ TOPBAR ══════════ -->
+  <header class="topbar">
+    <a class="topbar-brand" href="#">
+      <span class="badge">ADS · Senac Rio</span>
+      <span>Fundamentos da Programação</span>
+    </a>
+    <nav class="topbar-nav">
+      <a href="#sobre">Sobre</a>
+      <a href="#materiais">Materiais</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#recursos">Recursos</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" title="Alternar modo claro/escuro">🌙</button>
+  </header>
 
-<!-- ══════════ HERO ══════════ -->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Análise e Desenvolvimento de Sistemas</div>
-    <h1>Fundamentos da<br><em>Programação</em></h1>
-    <p class="hero-desc">
-      Lógica, algoritmos e programação em Python do zero ao intermediário. Materiais organizados por tema para acompanhar sua jornada na disciplina.
-    </p>
-    <div class="hero-meta">
-      <div class="meta-chip">
-        <span class="dot"></span>
-        <span>Professor: <strong>William Firmino</strong></span>
-      </div>
-      <div class="meta-chip">
-        <span class="dot"></span>
-        <span>Curso: <strong>ADS — Manhã</strong></span>
-      </div>
-      <div class="meta-chip">
-        <span class="dot"></span>
-        <span>Semestre: <strong>2026.1</strong></span>
-      </div>
-      <div class="meta-chip">
-        <span class="dot"></span>
-        <span>Carga horária: <strong>80h</strong></span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ CONTAINER ══════════ -->
-<div class="container">
-
-  <!-- ── Sobre a disciplina ── -->
-  <div class="section-label" id="sobre">
-    <h2>Sobre a disciplina</h2>
-  </div>
-
-  <div class="info-grid">
-    <div class="info-card">
-      <h3>Professor responsável</h3>
-      <div class="professor-row">
-        <div class="professor-avatar">W</div>
-        <div class="professor-info">
-          <strong>William Firmino</strong>
-          <span>Faculdade de Tecnologia Senac Rio</span>
+  <!-- ══════════ HERO ══════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Análise e Desenvolvimento de Sistemas</div>
+      <h1>Fundamentos da<br><em>Programação</em></h1>
+      <p class="hero-desc">
+        Lógica, algoritmos e programação em Python do zero ao intermediário. Materiais organizados por tema para
+        acompanhar sua jornada na disciplina.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-chip">
+          <span class="dot"></span>
+          <span>Professor: <strong>William Firmino</strong></span>
+        </div>
+        <div class="meta-chip">
+          <span class="dot"></span>
+          <span>Curso: <strong>ADS — Manhã</strong></span>
+        </div>
+        <div class="meta-chip">
+          <span class="dot"></span>
+          <span>Semestre: <strong>2026.1</strong></span>
+        </div>
+        <div class="meta-chip">
+          <span class="dot"></span>
+          <span>Carga horária: <strong>80h</strong></span>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="info-card">
-      <h3>Informações gerais</h3>
-      <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Curso de Análise e Desenvolvimento de Sistemas — Turno Manhã</p>
-      <div style="display:flex; flex-wrap:wrap; gap:8px;">
-        <span style="background:var(--green-soft);border:1px solid var(--green-border);color:var(--green-deep);font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">80h / semestre</span>
-        <span style="background:var(--green-soft);border:1px solid var(--green-border);color:var(--green-deep);font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">Python 3.x</span>
-        <span style="background:#dcfce7;border:1px solid #86efac;color:#15803d;font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">2026.1</span>
+  <!-- ══════════ CONTAINER ══════════ -->
+  <div class="container">
+
+    <!-- ── Sobre a disciplina ── -->
+    <div class="section-label" id="sobre">
+      <h2>Sobre a disciplina</h2>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Professor responsável</h3>
+        <div class="professor-row">
+          <div class="professor-avatar">W</div>
+          <div class="professor-info">
+            <strong>William Firmino</strong>
+            <span>Faculdade de Tecnologia Senac Rio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Informações gerais</h3>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:10px;">Curso de Análise e Desenvolvimento de
+          Sistemas — Turno Manhã</p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span
+            style="background:var(--green-soft);border:1px solid var(--green-border);color:var(--green-deep);font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">80h
+            / semestre</span>
+          <span
+            style="background:var(--green-soft);border:1px solid var(--green-border);color:var(--green-deep);font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">Python
+            3.x</span>
+          <span
+            style="background:#dcfce7;border:1px solid #86efac;color:#15803d;font-size:12px;padding:3px 10px;border-radius:6px;font-family:'DM Mono',monospace">2026.1</span>
+        </div>
+      </div>
+
+      <div class="info-card" style="grid-column: 1 / -1;">
+        <h3>Ementa</h3>
+        <ul class="ementa-list">
+          <li>Lógica de programação e algoritmos</li>
+          <li>Variáveis, tipos de dados e operadores</li>
+          <li>Estruturas de controle: condicionais e repetição</li>
+          <li>Funções: definição, parâmetros, retorno e escopo</li>
+          <li>Estruturas de dados: listas, dicionários e tuplas</li>
+          <li>Introdução à programação orientada a objetos</li>
+          <li>Boas práticas e legibilidade de código (PEP 8)</li>
+        </ul>
       </div>
     </div>
 
-    <div class="info-card" style="grid-column: 1 / -1;">
-      <h3>Ementa</h3>
-      <ul class="ementa-list">
-        <li>Lógica de programação e algoritmos</li>
-        <li>Variáveis, tipos de dados e operadores</li>
-        <li>Estruturas de controle: condicionais e repetição</li>
-        <li>Funções: definição, parâmetros, retorno e escopo</li>
-        <li>Estruturas de dados: listas, dicionários e tuplas</li>
-        <li>Introdução à programação orientada a objetos</li>
-        <li>Boas práticas e legibilidade de código (PEP 8)</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ── Materiais ── -->
-  <div class="section-label" id="materiais">
-    <h2>Materiais da disciplina</h2>
-  </div>
-
-  <div class="materiais-grid">
-
-    <!-- Apostila disponível -->
-    <a class="apostila-card" href="./funcoes/funcoes.html">
-      <div>
-        <div class="card-mod">Apostila 01</div>
-      </div>
-      <div class="card-title">Funções em Python</div>
-      <div class="card-desc">
-        Por que usar funções, estrutura, parâmetros, retorno, reutilização de código, escopo de variáveis e boas práticas — exemplos com contexto de pizzaria.
-      </div>
-      <div class="card-topics">
-        <span class="card-topic">def</span>
-        <span class="card-topic">return</span>
-        <span class="card-topic">parâmetros</span>
-        <span class="card-topic">escopo</span>
-        <span class="card-topic">boas práticas</span>
-      </div>
-      <div class="card-footer">
-        <span class="card-pages">6 seções · Python 3.x</span>
-        <span class="card-cta">Abrir →</span>
-      </div>
-    </a>
-
-    <!-- Exercícios disponível -->
-    <a class="apostila-card" href="./funcoes/exercicios-funcoes.html">
-      <div>
-        <div class="card-mod">Exercícios + Gabarito</div>
-      </div>
-      <div class="card-title">Funções · Colégio Byte</div>
-      <div class="card-desc">
-        Cinco exercícios progressivos sobre funções, ambientados no sistema acadêmico do Colégio Byte — com gabarito disponível para consulta.
-      </div>
-      <div class="card-topics">
-        <span class="card-topic">média ponderada</span>
-        <span class="card-topic">boletim</span>
-        <span class="card-topic">relatório</span>
-        <span class="card-topic">recuperação</span>
-      </div>
-      <div class="card-footer">
-        <span class="card-pages">5 exercícios · fácil → desafiador</span>
-        <span class="card-cta">Abrir →</span>
-      </div>
-    </a>
-
-    <!-- Em breve: Listas -->
-    <div class="apostila-card soon">
-      <div>
-        <div class="card-mod">Apostila 02</div>
-      </div>
-      <div class="card-title">Listas, Tuplas e Dicionários</div>
-      <div class="card-desc">
-        Estruturas de dados em Python: criação, acesso, modificação, iteração e métodos principais.
-      </div>
-      <div class="card-topics">
-        <span class="card-topic">list</span>
-        <span class="card-topic">tuple</span>
-        <span class="card-topic">dict</span>
-      </div>
-      <div class="card-footer">
-        <span class="soon-badge">Em breve</span>
-      </div>
+    <!-- ── Materiais ── -->
+    <div class="section-label" id="materiais">
+      <h2>Materiais da disciplina</h2>
     </div>
 
-    <!-- Em breve: Estruturas de controle -->
-    <div class="apostila-card soon">
-      <div>
-        <div class="card-mod">Apostila 03</div>
+    <div class="materiais-grid">
+
+      <!-- Apostila disponível -->
+      <a class="apostila-card" href="./funcoes/funcoes.html">
+        <div>
+          <div class="card-mod">Apostila 01</div>
+        </div>
+        <div class="card-title">Funções em Python</div>
+        <div class="card-desc">
+          Por que usar funções, estrutura, parâmetros, retorno, reutilização de código, escopo de variáveis e boas
+          práticas — exemplos com contexto de pizzaria.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">def</span>
+          <span class="card-topic">return</span>
+          <span class="card-topic">parâmetros</span>
+          <span class="card-topic">escopo</span>
+          <span class="card-topic">boas práticas</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-pages">6 seções · Python 3.x</span>
+          <span class="card-cta">Abrir →</span>
+        </div>
+      </a>
+
+      <!-- Exercícios disponível -->
+      <a class="apostila-card" href="./funcoes/exercicios-funcoes.html">
+        <div>
+          <div class="card-mod">Exercícios + Gabarito</div>
+        </div>
+        <div class="card-title">Funções · Colégio Byte</div>
+        <div class="card-desc">
+          Cinco exercícios progressivos sobre funções, ambientados no sistema acadêmico do Colégio Byte — com gabarito
+          disponível para consulta.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">média ponderada</span>
+          <span class="card-topic">boletim</span>
+          <span class="card-topic">relatório</span>
+          <span class="card-topic">recuperação</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-pages">5 exercícios · fácil → desafiador</span>
+          <span class="card-cta">Abrir →</span>
+        </div>
+      </a>
+
+      <!-- Exercícios disponível -->
+      <a class="apostila-card" href="./funcoes/exercicios-funcoes2.html">
+        <div>
+          <div class="card-mod">Exercícios + Gabarito</div>
+        </div>
+        <div class="card-title">Funções · Clínica Vida+</div>
+        <div class="card-desc">
+          Cinco exercícios progressivos sobre funções, ambientados no sistema de triagem da Clínica Vida+ — com gabarito
+          disponível para consulta.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">IMC</span>
+          <span class="card-topic">classificação</span>
+          <span class="card-topic">ficha de triagem</span>
+          <span class="card-topic">priorização</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-pages">5 exercícios · fácil → desafiador</span>
+          <span class="card-cta">Abrir →</span>
+        </div>
+      </a>
+
+      <!-- Em breve: Listas -->
+      <div class="apostila-card soon">
+        <div>
+          <div class="card-mod">Apostila 02</div>
+        </div>
+        <div class="card-title">Listas, Tuplas e Dicionários</div>
+        <div class="card-desc">
+          Estruturas de dados em Python: criação, acesso, modificação, iteração e métodos principais.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">list</span>
+          <span class="card-topic">tuple</span>
+          <span class="card-topic">dict</span>
+        </div>
+        <div class="card-footer">
+          <span class="soon-badge">Em breve</span>
+        </div>
       </div>
-      <div class="card-title">Estruturas de Controle</div>
-      <div class="card-desc">
-        Condicionais (if / elif / else) e estruturas de repetição (for, while) com exemplos práticos.
+
+      <!-- Em breve: Estruturas de controle -->
+      <div class="apostila-card soon">
+        <div>
+          <div class="card-mod">Apostila 03</div>
+        </div>
+        <div class="card-title">Estruturas de Controle</div>
+        <div class="card-desc">
+          Condicionais (if / elif / else) e estruturas de repetição (for, while) com exemplos práticos.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">if/else</span>
+          <span class="card-topic">for</span>
+          <span class="card-topic">while</span>
+        </div>
+        <div class="card-footer">
+          <span class="soon-badge">Em breve</span>
+        </div>
       </div>
-      <div class="card-topics">
-        <span class="card-topic">if/else</span>
-        <span class="card-topic">for</span>
-        <span class="card-topic">while</span>
+
+      <!-- Em breve: OOP -->
+      <div class="apostila-card soon">
+        <div>
+          <div class="card-mod">Apostila 04</div>
+        </div>
+        <div class="card-title">Introdução à OOP</div>
+        <div class="card-desc">
+          Classes, objetos, atributos e métodos — primeiros passos na programação orientada a objetos com Python.
+        </div>
+        <div class="card-topics">
+          <span class="card-topic">class</span>
+          <span class="card-topic">__init__</span>
+          <span class="card-topic">métodos</span>
+        </div>
+        <div class="card-footer">
+          <span class="soon-badge">Em breve</span>
+        </div>
       </div>
-      <div class="card-footer">
-        <span class="soon-badge">Em breve</span>
+
+      <!-- Placeholder -->
+      <div class="apostila-card placeholder" title="Nova apostila a caminho">
+        <div class="placeholder-inner">
+          <span class="plus">＋</span>
+          <span>Nova apostila<br>a caminho</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Cronograma ── -->
+    <div class="section-label" id="cronograma">
+      <h2>Cronograma</h2>
+    </div>
+
+    <div class="cronograma">
+      <div class="cronograma-header">
+        <span>Aula</span>
+        <span>Tema</span>
+        <span>Data</span>
+        <span>Status</span>
+      </div>
+
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 01</span>
+        <span class="crono-tema">Introdução ao Python — variáveis e tipos de dados</span>
+        <span class="crono-data">04/08/2025</span>
+        <span class="crono-status status-done">Concluída</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 02</span>
+        <span class="crono-tema">Operadores e entrada/saída de dados</span>
+        <span class="crono-data">11/08/2025</span>
+        <span class="crono-status status-done">Concluída</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 03</span>
+        <span class="crono-tema">Estruturas condicionais — if, elif, else</span>
+        <span class="crono-data">18/08/2025</span>
+        <span class="crono-status status-done">Concluída</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 04</span>
+        <span class="crono-tema">Estruturas de repetição — for e while</span>
+        <span class="crono-data">25/08/2025</span>
+        <span class="crono-status status-done">Concluída</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 05</span>
+        <span class="crono-tema">Funções — definição, parâmetros e retorno</span>
+        <span class="crono-data">01/09/2025</span>
+        <span class="crono-status status-current">Em andamento</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 06</span>
+        <span class="crono-tema">Funções — escopo, boas práticas e reutilização</span>
+        <span class="crono-data">08/09/2025</span>
+        <span class="crono-status status-next">Próxima</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 07</span>
+        <span class="crono-tema">Listas e tuplas</span>
+        <span class="crono-data">15/09/2025</span>
+        <span class="crono-status status-next">Aguardando</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 08</span>
+        <span class="crono-tema">Dicionários e conjuntos</span>
+        <span class="crono-data">22/09/2025</span>
+        <span class="crono-status status-next">Aguardando</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 09</span>
+        <span class="crono-tema">Introdução à programação orientada a objetos</span>
+        <span class="crono-data">29/09/2025</span>
+        <span class="crono-status status-next">Aguardando</span>
+      </div>
+      <div class="cronograma-row">
+        <span class="crono-aula">Aula 10</span>
+        <span class="crono-tema">Revisão geral e avaliação final</span>
+        <span class="crono-data">06/10/2025</span>
+        <span class="crono-status status-next">Aguardando</span>
       </div>
     </div>
 
-    <!-- Em breve: OOP -->
-    <div class="apostila-card soon">
-      <div>
-        <div class="card-mod">Apostila 04</div>
-      </div>
-      <div class="card-title">Introdução à OOP</div>
-      <div class="card-desc">
-        Classes, objetos, atributos e métodos — primeiros passos na programação orientada a objetos com Python.
-      </div>
-      <div class="card-topics">
-        <span class="card-topic">class</span>
-        <span class="card-topic">__init__</span>
-        <span class="card-topic">métodos</span>
-      </div>
-      <div class="card-footer">
-        <span class="soon-badge">Em breve</span>
-      </div>
+    <!-- ── Recursos ── -->
+    <div class="section-label" id="recursos">
+      <h2>Recursos complementares</h2>
     </div>
 
-    <!-- Placeholder -->
-    <div class="apostila-card placeholder" title="Nova apostila a caminho">
-      <div class="placeholder-inner">
-        <span class="plus">＋</span>
-        <span>Nova apostila<br>a caminho</span>
-      </div>
+    <div class="recursos-grid">
+      <a class="recurso-card" href="https://docs.python.org/pt-br/3/" target="_blank">
+        <div class="recurso-icon">🐍</div>
+        <div class="recurso-text">
+          <strong>Documentação oficial do Python</strong>
+          <span>Referência completa da linguagem em português, incluindo biblioteca padrão e tutoriais.</span>
+        </div>
+      </a>
+      <a class="recurso-card" href="https://peps.python.org/pep-0008/" target="_blank">
+        <div class="recurso-icon">📐</div>
+        <div class="recurso-text">
+          <strong>PEP 8 — Guia de estilo Python</strong>
+          <span>Convenções oficiais de formatação e nomenclatura para código Python limpo e legível.</span>
+        </div>
+      </a>
+      <a class="recurso-card" href="https://replit.com/" target="_blank">
+        <div class="recurso-icon">▶️</div>
+        <div class="recurso-text">
+          <strong>Replit — IDE online</strong>
+          <span>Execute Python direto no navegador, sem instalação. Ótimo para praticar em sala ou em casa.</span>
+        </div>
+      </a>
+      <a class="recurso-card" href="https://pythontutor.com/" target="_blank">
+        <div class="recurso-icon">🔍</div>
+        <div class="recurso-text">
+          <strong>Python Tutor — Visualizador</strong>
+          <span>Visualize a execução do seu código passo a passo, incluindo escopo e chamadas de funções.</span>
+        </div>
+      </a>
+      <a class="recurso-card" href="https://code.visualstudio.com/" target="_blank">
+        <div class="recurso-icon">💻</div>
+        <div class="recurso-text">
+          <strong>Visual Studio Code</strong>
+          <span>Editor recomendado. Instale a extensão Python da Microsoft para autocompletar e depuração.</span>
+        </div>
+      </a>
+      <a class="recurso-card" href="https://www.youtube.com/results?search_query=python+para+iniciantes"
+        target="_blank">
+        <div class="recurso-icon">🎥</div>
+        <div class="recurso-text">
+          <strong>Python para iniciantes — YouTube</strong>
+          <span>Playlist de vídeos em português cobrindo os fundamentos da linguagem Python do zero.</span>
+        </div>
+      </a>
     </div>
 
-  </div>
+  </div><!-- /container -->
 
-  <!-- ── Cronograma ── -->
-  <div class="section-label" id="cronograma">
-    <h2>Cronograma</h2>
-  </div>
+  <!-- ══════════ FOOTER ══════════ -->
+  <footer>
+    <span>
+      <strong>Fundamentos da Programação</strong> · Análise e Desenvolvimento de Sistemas
+    </span>
+    <span>Faculdade de Tecnologia Senac Rio · 2026.1</span>
+  </footer>
 
-  <div class="cronograma">
-    <div class="cronograma-header">
-      <span>Aula</span>
-      <span>Tema</span>
-      <span>Data</span>
-      <span>Status</span>
-    </div>
+  <script>
+    const navLinks = document.querySelectorAll('.topbar-nav a');
+    const anchors = ['sobre', 'materiais', 'cronograma', 'recursos'];
 
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 01</span>
-      <span class="crono-tema">Introdução ao Python — variáveis e tipos de dados</span>
-      <span class="crono-data">04/08/2025</span>
-      <span class="crono-status status-done">Concluída</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 02</span>
-      <span class="crono-tema">Operadores e entrada/saída de dados</span>
-      <span class="crono-data">11/08/2025</span>
-      <span class="crono-status status-done">Concluída</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 03</span>
-      <span class="crono-tema">Estruturas condicionais — if, elif, else</span>
-      <span class="crono-data">18/08/2025</span>
-      <span class="crono-status status-done">Concluída</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 04</span>
-      <span class="crono-tema">Estruturas de repetição — for e while</span>
-      <span class="crono-data">25/08/2025</span>
-      <span class="crono-status status-done">Concluída</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 05</span>
-      <span class="crono-tema">Funções — definição, parâmetros e retorno</span>
-      <span class="crono-data">01/09/2025</span>
-      <span class="crono-status status-current">Em andamento</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 06</span>
-      <span class="crono-tema">Funções — escopo, boas práticas e reutilização</span>
-      <span class="crono-data">08/09/2025</span>
-      <span class="crono-status status-next">Próxima</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 07</span>
-      <span class="crono-tema">Listas e tuplas</span>
-      <span class="crono-data">15/09/2025</span>
-      <span class="crono-status status-next">Aguardando</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 08</span>
-      <span class="crono-tema">Dicionários e conjuntos</span>
-      <span class="crono-data">22/09/2025</span>
-      <span class="crono-status status-next">Aguardando</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 09</span>
-      <span class="crono-tema">Introdução à programação orientada a objetos</span>
-      <span class="crono-data">29/09/2025</span>
-      <span class="crono-status status-next">Aguardando</span>
-    </div>
-    <div class="cronograma-row">
-      <span class="crono-aula">Aula 10</span>
-      <span class="crono-tema">Revisão geral e avaliação final</span>
-      <span class="crono-data">06/10/2025</span>
-      <span class="crono-status status-next">Aguardando</span>
-    </div>
-  </div>
-
-  <!-- ── Recursos ── -->
-  <div class="section-label" id="recursos">
-    <h2>Recursos complementares</h2>
-  </div>
-
-  <div class="recursos-grid">
-    <a class="recurso-card" href="https://docs.python.org/pt-br/3/" target="_blank">
-      <div class="recurso-icon">🐍</div>
-      <div class="recurso-text">
-        <strong>Documentação oficial do Python</strong>
-        <span>Referência completa da linguagem em português, incluindo biblioteca padrão e tutoriais.</span>
-      </div>
-    </a>
-    <a class="recurso-card" href="https://peps.python.org/pep-0008/" target="_blank">
-      <div class="recurso-icon">📐</div>
-      <div class="recurso-text">
-        <strong>PEP 8 — Guia de estilo Python</strong>
-        <span>Convenções oficiais de formatação e nomenclatura para código Python limpo e legível.</span>
-      </div>
-    </a>
-    <a class="recurso-card" href="https://replit.com/" target="_blank">
-      <div class="recurso-icon">▶️</div>
-      <div class="recurso-text">
-        <strong>Replit — IDE online</strong>
-        <span>Execute Python direto no navegador, sem instalação. Ótimo para praticar em sala ou em casa.</span>
-      </div>
-    </a>
-    <a class="recurso-card" href="https://pythontutor.com/" target="_blank">
-      <div class="recurso-icon">🔍</div>
-      <div class="recurso-text">
-        <strong>Python Tutor — Visualizador</strong>
-        <span>Visualize a execução do seu código passo a passo, incluindo escopo e chamadas de funções.</span>
-      </div>
-    </a>
-    <a class="recurso-card" href="https://code.visualstudio.com/" target="_blank">
-      <div class="recurso-icon">💻</div>
-      <div class="recurso-text">
-        <strong>Visual Studio Code</strong>
-        <span>Editor recomendado. Instale a extensão Python da Microsoft para autocompletar e depuração.</span>
-      </div>
-    </a>
-    <a class="recurso-card" href="https://www.youtube.com/results?search_query=python+para+iniciantes" target="_blank">
-      <div class="recurso-icon">🎥</div>
-      <div class="recurso-text">
-        <strong>Python para iniciantes — YouTube</strong>
-        <span>Playlist de vídeos em português cobrindo os fundamentos da linguagem Python do zero.</span>
-      </div>
-    </a>
-  </div>
-
-</div><!-- /container -->
-
-<!-- ══════════ FOOTER ══════════ -->
-<footer>
-  <span>
-    <strong>Fundamentos da Programação</strong> · Análise e Desenvolvimento de Sistemas
-  </span>
-  <span>Faculdade de Tecnologia Senac Rio · 2026.1</span>
-</footer>
-
-<script>
-  const navLinks = document.querySelectorAll('.topbar-nav a');
-  const anchors  = ['sobre', 'materiais', 'cronograma', 'recursos'];
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    anchors.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && window.scrollY >= el.parentElement.offsetTop - 120) current = id;
+    window.addEventListener('scroll', () => {
+      let current = '';
+      anchors.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.parentElement.offsetTop - 120) current = id;
+      });
+      navLinks.forEach(a => {
+        const active = a.getAttribute('href') === '#' + current;
+        a.style.color = active ? 'var(--green-deep)' : '';
+        a.style.background = active ? 'var(--green-soft)' : '';
+      });
     });
-    navLinks.forEach(a => {
-      const active = a.getAttribute('href') === '#' + current;
-      a.style.color      = active ? 'var(--green-deep)' : '';
-      a.style.background = active ? 'var(--green-soft)' : '';
+
+    // ─── Modo claro / escuro ───────────────
+    const themeToggle = document.getElementById('themeToggle');
+
+    function applyTheme(dark) {
+      document.body.classList.toggle('dark', dark);
+      themeToggle.textContent = dark ? '☀️' : '🌙';
+      themeToggle.title = dark ? 'Mudar para modo claro' : 'Mudar para modo escuro';
+    }
+
+    // Carrega preferência salva
+    applyTheme(localStorage.getItem('theme') === 'dark');
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      applyTheme(!isDark);
     });
-  });
-
-  // ─── Modo claro / escuro ───────────────
-  const themeToggle = document.getElementById('themeToggle');
-
-  function applyTheme(dark) {
-    document.body.classList.toggle('dark', dark);
-    themeToggle.textContent = dark ? '☀️' : '🌙';
-    themeToggle.title = dark ? 'Mudar para modo claro' : 'Mudar para modo escuro';
-  }
-
-  // Carrega preferência salva
-  applyTheme(localStorage.getItem('theme') === 'dark');
-
-  themeToggle.addEventListener('click', () => {
-    const isDark = document.body.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-    applyTheme(!isDark);
-  });
-</script>
+  </script>
 
 </body>
+
 </html>
