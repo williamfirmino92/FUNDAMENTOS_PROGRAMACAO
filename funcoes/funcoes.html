@@ -137,11 +137,32 @@ body {
   min-width: 18px;
 }
 
+/* ── SIDEBAR TOGGLE ── */
+#sidebar { transition: transform 0.25s ease; }
+#sidebar.hidden { transform: translateX(-100%); }
+
+#sidebar-toggle {
+  position: fixed; top: 50%; left: var(--sidebar-w);
+  transform: translateY(-50%) translateX(-50%);
+  z-index: 60;
+  width: 20px; height: 48px;
+  background: var(--green-600);
+  border: none; border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: left 0.25s ease, background 0.15s;
+  color: #fff; font-size: 0.65rem;
+}
+#sidebar-toggle:hover { background: var(--green-700); }
+#sidebar-toggle.hidden { left: 0; transform: translateY(-50%) translateX(0); }
+
 /* ── MAIN ── */
 #main {
   margin-left: var(--sidebar-w);
   min-height: 100vh;
+  transition: margin-left 0.25s ease;
 }
+#main.expanded { margin-left: 0; }
 
 /* ── TOP BAR ── */
 .topbar {
@@ -819,6 +840,7 @@ body.dark .section-divider { border-color: var(--border); }
 <body>
 
 <div id="progress"></div>
+<button id="sidebar-toggle" title="Esconder/mostrar menu lateral">‹</button>
 
 <!-- ═══ SIDEBAR ═══ -->
 <aside id="sidebar">
@@ -1624,6 +1646,27 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', isDark ? 'light' : 'dark');
   applyTheme(!isDark);
 });
+
+// ─── Toggle sidebar ───────────────────
+const sidebarToggle = document.getElementById('sidebar-toggle');
+const sidebar = document.getElementById('sidebar');
+const main = document.getElementById('main');
+
+function applySidebar(hidden) {
+  sidebar.classList.toggle('hidden', hidden);
+  main.classList.toggle('expanded', hidden);
+  sidebarToggle.classList.toggle('hidden', hidden);
+  sidebarToggle.textContent = hidden ? '›' : '‹';
+  sidebarToggle.title = hidden ? 'Mostrar menu lateral' : 'Esconder menu lateral';
+}
+
+sidebarToggle.addEventListener('click', () => {
+  const isHidden = sidebar.classList.contains('hidden');
+  localStorage.setItem('sidebar-hidden', !isHidden);
+  applySidebar(!isHidden);
+});
+
+applySidebar(localStorage.getItem('sidebar-hidden') === 'true');
 
 // Botão de copiar código
 document.querySelectorAll('pre').forEach(pre => {
